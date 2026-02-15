@@ -1,0 +1,50 @@
+[
+  {
+    "caption": "Voyager: Start Session",
+    "command": "voyager_session_start",
+  },
+  {
+    "caption": "Voyager: End Session",
+    "command": "voyager_session_end",
+  },
+  {
+    "caption": "Voyager: Session Status",
+    "command": "voyager_session_status",
+  },
+  {
+    "caption": "Voyager: Update Brain",
+    "command": "voyager_brain_update",
+  },
+  {
+    "caption": "Voyager: Show Brain State",
+    "command": "voyager_brain_show",
+  },
+  {
+    "caption": "Voyager: Clear Brain",
+    "command": "voyager_brain_clear",
+  },
+  {
+    "caption": "Voyager: Search Skills",
+    "command": "voyager_skills_search",
+  },
+  {
+    "caption": "Voyager: List Skills",
+    "command": "voyager_skills_list",
+  },
+  {
+    "caption": "Voyager: Add Skill",
+    "command": "voyager_skills_add",
+  },
+  {
+    "caption": "Voyager: Show Config",
+    "command": "voyager_config_show",
+  },
+  {
+    "caption": "Voyager: Edit Config",
+    "command": "voyager_config_edit",
+  },
+  {
+    "caption": "Voyager: Select AI Provider",
+    "command": "voyager_provider_select",
+  },
+]

@@ -1,0 +1,23 @@
+# Example configuration for using Voyager with Ollama (local LLMs)
+# Place this file as .voyager/config.toml or voyager.toml in your project root
+
+[voyager]
+state_dir = ".voyager"
+skills_dir = ".voyager/skills"
+ide_adapter = "generic_cli"
+
+# Use Ollama for local LLMs
+ai_provider = "ollama"
+
+[ai.ollama]
+# Use Code Llama for code-focused tasks
+model = "codellama:34b"
+# Or use Llama 3.1 for general tasks: "llama3.1:70b"
+# Or Mistral: "mistral:latest"
+
+base_url = "http://localhost:11434"
+timeout_seconds = 120 # Local models may be slower
+
+[ide.generic_cli]
+auto_save_brain = true
+verbose = true

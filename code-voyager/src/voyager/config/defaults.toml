@@ -1,0 +1,114 @@
+[voyager]
+# Storage location (relative to project root)
+state_dir = ".voyager"
+skills_dir = ".voyager/skills"
+
+# IDE adapter to use
+# Options: "claude_code", "vscode", "jetbrains", "vim", "generic_cli", "generic_lsp"
+ide_adapter = "claude_code"
+
+# AI provider to use
+# Options: "claude", "openai", "ollama", "gemini", "anthropic"
+ai_provider = "claude"
+
+[ai.claude]
+# Claude AI settings (uses Claude Agent SDK)
+model = "claude-3-5-sonnet-20241022"
+timeout_seconds = 60
+max_turns = 10
+# API key read from ANTHROPIC_API_KEY environment variable
+
+[ai.openai]
+# OpenAI settings
+model = "gpt-4"
+timeout_seconds = 60
+max_turns = 10
+# API key read from OPENAI_API_KEY environment variable
+
+[ai.anthropic]
+# Direct Anthropic API (alternative to Claude Agent SDK)
+model = "claude-3-5-sonnet-20241022"
+timeout_seconds = 60
+max_tokens = 4096
+# API key read from ANTHROPIC_API_KEY environment variable
+
+[ai.ollama]
+# Local Ollama settings
+model = "llama3.1"
+base_url = "http://localhost:11434"
+timeout_seconds = 120
+
+[ai.gemini]
+# Google Gemini settings
+model = "gemini-1.5-pro"
+# Other models:
+# model = "gemini-1.5-flash"  # Faster, cheaper
+# model = "gemini-pro"  # Previous generation
+timeout_seconds = 60
+temperature = 0.7
+# max_tokens = 8192
+# API key read from GOOGLE_API_KEY environment variable
+
+[ai.cohere]
+# Cohere settings
+model = "command-r-plus"
+# Other models:
+# model = "command-r"  # Balanced quality/speed
+# model = "command"  # Fast
+# model = "command-light"  # Lightweight
+timeout_seconds = 60
+temperature = 0.7
+# max_tokens = 4096
+# API key read from COHERE_API_KEY environment variable
+
+[ai.openai_compatible]
+# OpenAI-compatible API settings (Azure OpenAI, LocalAI, Together AI, etc.)
+# base_url = "https://api.together.xyz/v1"  # Example: Together AI
+# base_url = "https://api.fireworks.ai/inference/v1"  # Example: Fireworks AI
+# base_url = "http://localhost:8080/v1"  # Example: LocalAI
+model = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+timeout_seconds = 60
+api_key_env = "OPENAI_API_KEY" # Override per provider
+temperature = 0.7
+# max_tokens = 4096
+
+[ai.openrouter]
+# OpenRouter settings (unified access to multiple providers)
+# Supports: OpenAI, Anthropic, Google, Meta, Mistral, and more
+model = "anthropic/claude-3.5-sonnet"
+# Other popular models:
+# model = "openai/gpt-4-turbo-preview"
+# model = "google/gemini-pro"
+# model = "meta-llama/llama-3.1-70b-instruct"
+# model = "mistralai/mixtral-8x7b-instruct"
+timeout_seconds = 60
+temperature = 0.7
+# API key read from OPENROUTER_API_KEY environment variable
+# Optional: site_url and app_name for OpenRouter rankings
+# site_url = "https://your-site.com"
+# app_name = "your-app-name"
+
+[ide.claude_code]
+# Claude Code specific settings
+hooks_enabled = true
+
+[ide.vscode]
+# VS Code specific settings
+extension_id = "voyager.code-voyager"
+
+[ide.jetbrains]
+# JetBrains specific settings
+plugin_id = "ai.zenbase.voyager"
+
+[ide.vim]
+# Vim/Neovim specific settings
+plugin_name = "voyager.nvim"
+
+[ide.generic_cli]
+# Generic CLI settings (manual session management)
+auto_save_brain = true
+verbose = true
+
+[ide.generic_lsp]
+# Generic LSP server settings
+port = 7878

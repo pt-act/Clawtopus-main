@@ -1,0 +1,79 @@
+
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║                    Voyager for Sublime Text                      ║
+║                                                                  ║
+║         AI-Powered Coding Agent Integration                      ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+Thank you for installing Voyager!
+
+QUICK START
+───────────
+
+1. Install Voyager CLI (if not already installed):
+   
+   pip install voyager-agent
+
+2. Initialize configuration:
+   
+   voyager config init
+
+3. Start using Voyager:
+   
+   Press Ctrl+Shift+P and type "Voyager"
+   Or use Ctrl+Alt+V, Ctrl+Alt+S to start a session
+
+KEYBOARD SHORTCUTS
+──────────────────
+
+All shortcuts start with Ctrl+Alt+V (or Cmd+Alt+V on Mac):
+
+  Ctrl+Alt+V, Ctrl+Alt+S  →  Start Session
+  Ctrl+Alt+V, Ctrl+Alt+U  →  Update Brain
+  Ctrl+Alt+V, Ctrl+Alt+F  →  Search Skills
+  Ctrl+Alt+V, Ctrl+Alt+B  →  Show Brain State
+
+See all shortcuts in README.md
+
+MENU ACCESS
+───────────
+
+Tools → Voyager
+
+DOCUMENTATION
+─────────────
+
+View full documentation:
+  - README.md in package folder
+  - GitHub: https://github.com/infinity-vs/code-voyager
+
+CONFIGURATION
+─────────────
+
+Set your AI provider and API key:
+
+  Ctrl+Shift+P → "Voyager: Edit Config"
+
+Or run: voyager config init
+
+SUPPORTED AI PROVIDERS
+──────────────────────
+
+✓ Claude (Anthropic)
+✓ OpenAI (GPT-4, GPT-3.5)
+✓ Google Gemini
+✓ Cohere
+✓ Ollama (local)
+✓ OpenRouter (50+ models)
+✓ Azure OpenAI
+✓ Together AI
+✓ Fireworks AI
+
+GETTING HELP
+────────────
+
+Issues? Visit: https://github.com/infinity-vs/code-voyager/issues
+
+Happy coding with Voyager! 🚀

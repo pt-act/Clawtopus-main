@@ -1,0 +1,24 @@
+# Example configuration for using Voyager with generic CLI
+# Place this file as .voyager/config.toml or voyager.toml in your project root
+
+[voyager]
+# Storage location (relative to project root)
+state_dir = ".voyager"
+skills_dir = ".voyager/skills"
+
+# Use generic CLI adapter (no IDE-specific hooks)
+ide_adapter = "generic_cli"
+
+# Use Claude as the AI provider
+ai_provider = "claude"
+
+[ai.claude]
+model = "claude-3-5-sonnet-20241022"
+timeout_seconds = 60
+max_turns = 10
+
+[ide.generic_cli]
+# Automatically save brain state after updates
+auto_save_brain = true
+# Show verbose output
+verbose = true

@@ -1,0 +1,222 @@
+Last login: Wed Jan 14 16:41:02 on ttys002
+tree%                                                                           (base) rna@Ricardos-MacBook-Pro code-voyager % tree
+.
+├── CLAUDE.md
+├── LICENSE
+├── README.md
+├── SimpleMem-main
+│   ├── README.md
+│   ├── config.py.example
+│   ├── core
+│   │   ├── __init__.py
+│   │   ├── answer_generator.py
+│   │   ├── hybrid_retriever.py
+│   │   └── memory_builder.py
+│   ├── database
+│   │   └── vector_store.py
+│   ├── fig
+│   │   ├── Fig_framework.png
+│   │   ├── Fig_icon.png
+│   │   ├── Fig_tradeoff.png
+│   │   ├── simplemem-new.mp4
+│   │   └── wechat_logo.jpg
+│   ├── main.py
+│   ├── models
+│   │   ├── __init__.py
+│   │   └── memory_entry.py
+│   ├── requirements.txt
+│   ├── test_locomo10.py
+│   ├── test_ref
+│   │   ├── load_dataset.py
+│   │   ├── test_advanced.py
+│   │   └── utils.py
+│   └── utils
+│       ├── __init__.py
+│       ├── embedding.py
+│       └── llm_client.py
+├── UNIVERSAL_README.md
+├── docs
+│   ├── ARCHITECTURE.md
+│   ├── CHANGELOG_NEW_FEATURES.md
+│   ├── CHANGELOG_v0.2.0.md
+│   ├── DEPLOYMENT_SUMMARY.md
+│   ├── EXTENSIONS.md
+│   ├── MIGRATION_GUIDE.md
+│   ├── PROVIDERS.md
+│   ├── SUMMARY.md
+│   ├── WHY.md
+│   ├── ai-providers.md
+│   ├── configuration.md
+│   └── ide-adapters.md
+├── examples
+│   ├── generic-cli
+│   │   ├── README.md
+│   │   └── voyager.toml
+│   ├── hexstrike_integration.py
+│   ├── providers
+│   │   ├── cohere_example.md
+│   │   └── gemini_example.md
+│   ├── with-ollama
+│   │   ├── README.md
+│   │   └── voyager.toml
+│   ├── with-openai
+│   │   ├── README.md
+│   │   └── voyager.toml
+│   ├── with-openai-compatible
+│   │   ├── README.md
+│   │   └── voyager.toml
+│   └── with-openrouter
+│       ├── README.md
+│       └── voyager.toml
+├── extensions
+│   ├── emacs
+│   │   └── voyager.el
+│   ├── sublime
+│   │   ├── Default.sublime-commands
+│   │   ├── Default.sublime-keymap
+│   │   ├── Main.sublime-menu
+│   │   ├── README.md
+│   │   ├── Voyager.sublime-settings
+│   │   ├── messages
+│   │   │   ├── 1.0.0.txt
+│   │   │   └── install.txt
+│   │   ├── messages.json
+│   │   └── voyager.py
+│   └── vscode
+│       ├── README.md
+│       ├── package.json
+│       ├── src
+│       │   ├── extension.ts
+│       │   ├── views
+│       │   │   ├── brainView.ts
+│       │   │   └── skillsView.ts
+│       │   └── voyagerClient.ts
+│       └── tsconfig.json
+├── justfile
+├── pyproject.toml
+├── scripts
+│   ├── dev
+│   │   └── sync_skills.py
+│   └── lib
+│       └── claude_print.py
+├── setup_unified_memory.sh
+├── src
+│   ├── tests
+│   │   ├── test_io.py
+│   │   ├── test_jsonschema.py
+│   │   ├── test_llm.py
+│   │   ├── test_logging.py
+│   │   └── test_snapshot.py
+│   └── voyager
+│       ├── __init__.py
+│       ├── __pycache__
+│       │   ├── __init__.cpython-312.pyc
+│       │   ├── io.cpython-312.pyc
+│       │   └── logging.cpython-312.pyc
+│       ├── adapters
+│       │   ├── __init__.py
+│       │   ├── ai
+│       │   │   ├── __init__.py
+│       │   │   ├── claude.py
+│       │   │   ├── cohere.py
+│       │   │   ├── gemini.py
+│       │   │   ├── ollama.py
+│       │   │   ├── openai_compatible.py
+│       │   │   ├── openai_provider.py
+│       │   │   └── openrouter.py
+│       │   ├── base
+│       │   │   ├── __init__.py
+│       │   │   ├── ai_provider.py
+│       │   │   └── ide_adapter.py
+│       │   └── ide
+│       │       ├── __init__.py
+│       │       ├── claude_code.py
+│       │       └── generic_cli.py
+│       ├── brain
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   └── render.cpython-312.pyc
+│       │   ├── render.py
+│       │   └── store.py
+│       ├── cli
+│       │   ├── __init__.py
+│       │   ├── brain.py
+│       │   ├── curriculum.py
+│       │   ├── factory.py
+│       │   ├── feedback.py
+│       │   ├── hook.py
+│       │   ├── repo.py
+│       │   └── skill.py
+│       ├── config
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   └── settings.cpython-312.pyc
+│       │   ├── defaults.toml
+│       │   └── settings.py
+│       ├── config.py
+│       ├── curriculum
+│       │   ├── __init__.py
+│       │   ├── render.py
+│       │   └── store.py
+│       ├── factory
+│       │   ├── __init__.py
+│       │   └── store.py
+│       ├── io.py
+│       ├── jsonschema.py
+│       ├── llm.py
+│       ├── logging.py
+│       ├── lsp
+│       │   ├── README.md
+│       │   ├── __init__.py
+│       │   └── server.py
+│       ├── memory
+│       │   ├── README.md
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   ├── cli_integration.cpython-312.pyc
+│       │   │   └── unified_memory.cpython-312.pyc
+│       │   ├── cli_integration.py
+│       │   └── unified_memory.py
+│       ├── refinement
+│       │   ├── __init__.py
+│       │   ├── detector.py
+│       │   └── store.py
+│       ├── repo
+│       │   ├── __init__.py
+│       │   └── snapshot.py
+│       ├── retrieval
+│       │   ├── __init__.py
+│       │   ├── analyzer.py
+│       │   ├── discovery.py
+│       │   ├── embedding.py
+│       │   └── index.py
+│       └── scripts
+│           ├── __init__.py
+│           ├── brain
+│           │   ├── __init__.py
+│           │   ├── inject.py
+│           │   └── update.py
+│           ├── curriculum
+│           │   ├── __init__.py
+│           │   └── plan.py
+│           ├── factory
+│           │   ├── __init__.py
+│           │   ├── propose.py
+│           │   └── scaffold.py
+│           ├── feedback
+│           │   ├── __init__.py
+│           │   └── insights.py
+│           ├── repo
+│           │   ├── __init__.py
+│           │   └── snapshot.py
+│           └── skill
+│               ├── __init__.py
+│               ├── find.py
+│               └── index_cmd.py
+└── uv.lock
+
+54 directories, 163 files
+(base) rna@Ricardos-MacBook-Pro code-voyager % 

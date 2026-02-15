@@ -1,0 +1,46 @@
+# Example configuration for OpenAI-compatible APIs
+# Works with: Azure OpenAI, Together AI, Fireworks AI, LocalAI, Anyscale, Perplexity, and more
+
+[voyager]
+state_dir = ".voyager"
+skills_dir = ".voyager/skills"
+ide_adapter = "generic_cli"
+
+# Use OpenAI-compatible provider
+ai_provider = "openai_compatible"
+
+[ai.openai_compatible]
+# Configure base_url for your provider:
+
+# Example: Together AI (great selection, good pricing)
+base_url = "https://api.together.xyz/v1"
+model = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+api_key_env = "TOGETHER_API_KEY"
+
+# Example: Fireworks AI (fast inference)
+# base_url = "https://api.fireworks.ai/inference/v1"
+# model = "accounts/fireworks/models/llama-v3p1-70b-instruct"
+# api_key_env = "FIREWORKS_API_KEY"
+
+# Example: Azure OpenAI (enterprise)
+# base_url = "https://YOUR_RESOURCE.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT"
+# model = "gpt-4"
+# api_key_env = "AZURE_OPENAI_API_KEY"
+
+# Example: LocalAI (self-hosted, private)
+# base_url = "http://localhost:8080/v1"
+# model = "gpt-3.5-turbo"  # or your loaded model name
+# api_key_env = "LOCALAI_API_KEY"  # Not needed for local
+
+# Example: Anyscale Endpoints
+# base_url = "https://api.endpoints.anyscale.com/v1"
+# model = "meta-llama/Llama-3-70b-chat-hf"
+# api_key_env = "ANYSCALE_API_KEY"
+
+timeout_seconds = 60
+temperature = 0.7
+# max_tokens = 4096  # Optional: limit response length
+
+[ide.generic_cli]
+auto_save_brain = true
+verbose = true

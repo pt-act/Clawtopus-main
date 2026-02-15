@@ -1,0 +1,22 @@
+{
+  // Enable auto-updating brain state on file save
+  "auto_update_brain_on_save": false,
+
+  // Maximum number of context lines to send when updating brain
+  "context_lines": 100,
+
+  // Command timeout in seconds
+  "command_timeout": 30,
+
+  // Brain update timeout in seconds (longer for AI processing)
+  "brain_update_timeout": 60,
+
+  // Path to voyager CLI (leave empty to use PATH)
+  "voyager_cli_path": "",
+
+  // Default AI provider (can be changed via command palette)
+  "default_provider": "claude",
+
+  // Show status messages for operations
+  "show_status_messages": true,
+}

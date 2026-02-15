@@ -1,0 +1,218 @@
+{
+  "name": "code-voyager",
+  "displayName": "Code Voyager",
+  "version": "0.2.0",
+  "description": "AI assistant memory that remembers across sessions",
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "ai",
+    "assistant",
+    "claude",
+    "gpt",
+    "memory",
+    "session"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/infinity-vs/code-voyager"
+  },
+  "publisher": "voyager",
+  "main": "./dist/extension.js",
+  "scripts": {
+    "compile": "webpack",
+    "compile-tests": "tsc -p . --outDir out",
+    "lint": "eslint src --ext ts",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js",
+    "vscode:prepublish": "npm run package",
+    "watch": "webpack --watch",
+    "watch-tests": "tsc -p . -w --outDir out"
+  },
+  "dependencies": {
+    "marked": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/test-electron": "^2.3.0",
+    "eslint": "^8.0.0",
+    "ts-loader": "^9.4.0",
+    "typescript": "^5.0.0",
+    "webpack": "^5.85.0",
+    "webpack-cli": "^5.1.0"
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "voyager-sidebar",
+          "title": "Code Voyager",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "voyager-sidebar": [
+        {
+          "type": "webview",
+          "id": "voyager.brainView",
+          "name": "Session Brain",
+          "icon": "media/brain.svg",
+          "contextualTitle": "Session Brain"
+        },
+        {
+          "type": "webview",
+          "id": "voyager.skillsView",
+          "name": "Skills",
+          "icon": "media/skills.svg",
+          "contextualTitle": "Skills"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "voyager.sessionStart",
+        "title": "Voyager: Start Session",
+        "icon": "$(play)"
+      },
+      {
+        "command": "voyager.sessionEnd",
+        "title": "Voyager: End Session",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "voyager.brainUpdate",
+        "title": "Voyager: Update Brain",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "voyager.brainShow",
+        "title": "Voyager: Show Brain State",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "voyager.skillFind",
+        "title": "Voyager: Find Skill",
+        "icon": "$(search)"
+      },
+      {
+        "command": "voyager.skillIndex",
+        "title": "Voyager: Index Skills",
+        "icon": "$(database)"
+      },
+      {
+        "command": "voyager.curriculumPlan",
+        "title": "Voyager: Create Curriculum",
+        "icon": "$(list-ordered)"
+      },
+      {
+        "command": "voyager.factoryPropose",
+        "title": "Voyager: Propose Skills",
+        "icon": "$(lightbulb)"
+      },
+      {
+        "command": "voyager.configure",
+        "title": "Voyager: Configure",
+        "icon": "$(settings-gear)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "voyager.brainUpdate",
+          "when": "view == voyager.brainView",
+          "group": "navigation"
+        },
+        {
+          "command": "voyager.skillFind",
+          "when": "view == voyager.skillsView",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "voyager.sessionStart"
+        },
+        {
+          "command": "voyager.sessionEnd"
+        },
+        {
+          "command": "voyager.brainUpdate"
+        },
+        {
+          "command": "voyager.brainShow"
+        },
+        {
+          "command": "voyager.skillFind"
+        },
+        {
+          "command": "voyager.skillIndex"
+        },
+        {
+          "command": "voyager.curriculumPlan"
+        },
+        {
+          "command": "voyager.factoryPropose"
+        },
+        {
+          "command": "voyager.configure"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Code Voyager",
+      "properties": {
+        "voyager.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Code Voyager"
+        },
+        "voyager.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically start session when workspace opens"
+        },
+        "voyager.aiProvider": {
+          "type": "string",
+          "default": "claude",
+          "enum": [
+            "claude",
+            "openai",
+            "ollama",
+            "openrouter",
+            "openai_compatible"
+          ],
+          "description": "AI provider to use"
+        },
+        "voyager.stateDir": {
+          "type": "string",
+          "default": ".voyager",
+          "description": "Directory for Voyager state"
+        },
+        "voyager.skillsDir": {
+          "type": "string",
+          "default": ".voyager/skills",
+          "description": "Directory for skills"
+        },
+        "voyager.cliPath": {
+          "type": "string",
+          "default": "voyager",
+          "description": "Path to voyager CLI executable"
+        }
+      }
+    }
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.80.0"
+  }
+}

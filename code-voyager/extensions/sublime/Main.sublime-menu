@@ -1,0 +1,122 @@
+[
+  {
+    "id": "tools",
+    "children": [
+      {
+        "id": "voyager",
+        "caption": "Voyager",
+        "children": [
+          {
+            "caption": "Session",
+            "children": [
+              {
+                "caption": "Start Session",
+                "command": "voyager_session_start",
+              },
+              {
+                "caption": "End Session",
+                "command": "voyager_session_end",
+              },
+              {
+                "caption": "Session Status",
+                "command": "voyager_session_status",
+              },
+            ],
+          },
+          {
+            "caption": "-",
+          },
+          {
+            "caption": "Brain",
+            "children": [
+              {
+                "caption": "Update Brain",
+                "command": "voyager_brain_update",
+              },
+              {
+                "caption": "Show Brain State",
+                "command": "voyager_brain_show",
+              },
+              {
+                "caption": "Clear Brain",
+                "command": "voyager_brain_clear",
+              },
+            ],
+          },
+          {
+            "caption": "-",
+          },
+          {
+            "caption": "Skills",
+            "children": [
+              {
+                "caption": "Search Skills",
+                "command": "voyager_skills_search",
+              },
+              {
+                "caption": "List All Skills",
+                "command": "voyager_skills_list",
+              },
+              {
+                "caption": "Add Skill",
+                "command": "voyager_skills_add",
+              },
+            ],
+          },
+          {
+            "caption": "-",
+          },
+          {
+            "caption": "Configuration",
+            "children": [
+              {
+                "caption": "Show Config",
+                "command": "voyager_config_show",
+              },
+              {
+                "caption": "Edit Config",
+                "command": "voyager_config_edit",
+              },
+              {
+                "caption": "Select AI Provider",
+                "command": "voyager_provider_select",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    "id": "preferences",
+    "children": [
+      {
+        "caption": "Package Settings",
+        "id": "package-settings",
+        "children": [
+          {
+            "caption": "Voyager",
+            "children": [
+              {
+                "caption": "Settings",
+                "command": "edit_settings",
+                "args": {
+                  "base_file": "${packages}/Voyager/Voyager.sublime-settings",
+                  "default": "{\n\t$0\n}\n",
+                },
+              },
+              {
+                "caption": "Key Bindings",
+                "command": "edit_settings",
+                "args": {
+                  "base_file": "${packages}/Voyager/Default.sublime-keymap",
+                  "default": "[\n\t$0\n]\n",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]

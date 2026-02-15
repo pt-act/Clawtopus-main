@@ -1,0 +1,46 @@
+[
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+s"],
+    "command": "voyager_session_start",
+  },
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+e"],
+    "command": "voyager_session_end",
+  },
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+t"],
+    "command": "voyager_session_status",
+  },
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+u"],
+    "command": "voyager_brain_update",
+  },
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+b"],
+    "command": "voyager_brain_show",
+  },
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+c"],
+    "command": "voyager_brain_clear",
+  },
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+f"],
+    "command": "voyager_skills_search",
+  },
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+l"],
+    "command": "voyager_skills_list",
+  },
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+a"],
+    "command": "voyager_skills_add",
+  },
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+o"],
+    "command": "voyager_config_show",
+  },
+  {
+    "keys": ["ctrl+alt+v", "ctrl+alt+p"],
+    "command": "voyager_provider_select",
+  },
+]

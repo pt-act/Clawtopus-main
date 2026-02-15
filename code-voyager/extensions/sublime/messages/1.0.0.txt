@@ -1,0 +1,63 @@
+
+Voyager 1.0.0 - Initial Release
+════════════════════════════════
+
+Welcome to the first release of Voyager for Sublime Text!
+
+NEW FEATURES
+────────────
+
+✨ Session Management
+   • Start and end Voyager sessions
+   • Monitor session status
+
+🧠 Brain State Management
+   • Update brain with current context
+   • View brain state in output panel
+   • Clear brain when needed
+
+🔍 Skills System
+   • Search for relevant skills
+   • List all available skills
+   • Add new skills from code
+
+⚙️ Configuration
+   • View and edit Voyager config
+   • Select AI provider from UI
+   • Customize plugin settings
+
+🎯 Multiple AI Providers
+   • Claude (Anthropic)
+   • OpenAI (GPT-4, GPT-3.5)
+   • Google Gemini
+   • Cohere
+   • Ollama (local)
+   • OpenRouter (50+ models)
+   • Azure OpenAI
+   • Together AI
+   • Fireworks AI
+
+⌨️ Keyboard Shortcuts
+   • Comprehensive key bindings
+   • Two-key chord system (Ctrl+Alt+V prefix)
+   • Customizable shortcuts
+
+📋 Command Palette
+   • All features accessible via Command Palette
+   • Intuitive command names
+
+🍔 Menu Integration
+   • Tools → Voyager menu
+   • Organized by feature
+
+USAGE
+─────
+
+Press Ctrl+Shift+P and type "Voyager" to see all commands.
+
+Or use keyboard shortcuts starting with Ctrl+Alt+V.
+
+For full documentation, see README.md or visit:
+https://github.com/infinity-vs/code-voyager
+
+Thank you for using Voyager! 🚀

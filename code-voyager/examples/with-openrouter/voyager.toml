@@ -1,0 +1,43 @@
+# Example configuration for using Voyager with OpenRouter
+# OpenRouter provides unified access to multiple AI providers through a single API
+
+[voyager]
+state_dir = ".voyager"
+skills_dir = ".voyager/skills"
+ide_adapter = "generic_cli"
+
+# Use OpenRouter as the AI provider
+ai_provider = "openrouter"
+
+[ai.openrouter]
+# Choose from dozens of models across multiple providers:
+
+# Anthropic Claude (best for code)
+model = "anthropic/claude-3.5-sonnet"
+
+# Or OpenAI models:
+# model = "openai/gpt-4-turbo-preview"
+# model = "openai/gpt-3.5-turbo"
+
+# Or Google models:
+# model = "google/gemini-pro"
+
+# Or Meta Llama:
+# model = "meta-llama/llama-3.1-70b-instruct"
+
+# Or Mistral:
+# model = "mistralai/mixtral-8x7b-instruct"
+
+# Or many others!
+# See https://openrouter.ai/models for full list
+
+timeout_seconds = 60
+temperature = 0.7
+
+# Optional: Add your site info for OpenRouter rankings
+# site_url = "https://your-site.com"
+# app_name = "your-app-name"
+
+[ide.generic_cli]
+auto_save_brain = true
+verbose = true
