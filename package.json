@@ -2,14 +2,19 @@
   "name": "clawtopus",
   "version": "2026.2.13-clawtopus.1",
   "description": "The eight-armed AI assistant with exceptional memory - a self-evolving fork of OpenClaw",
+  "keywords": [
+    "ai",
+    "assistant",
+    "memory",
+    "self-evolving"
+  ],
   "homepage": "https://github.com/clawtopus/clawtopus",
+  "license": "MIT",
+  "author": "Clawtopus Team",
   "repository": {
     "type": "git",
     "url": "https://github.com/clawtopus/clawtopus.git"
   },
-  "keywords": ["ai", "assistant", "memory", "self-evolving"],
-  "license": "MIT",
-  "author": "Clawtopus Team",
   "bin": {
     "clawtopus": "openclaw.mjs",
     "openclaw": "openclaw.mjs"
@@ -191,8 +196,7 @@
     "vitest": "^4.0.18"
   },
   "peerDependencies": {
-    "@napi-rs/canvas": "^0.1.89",
-    "node-llama-cpp": "3.15.1"
+    "@napi-rs/canvas": "^0.1.89"
   },
   "engines": {
     "node": ">=22.12.0"
@@ -206,7 +210,8 @@
       "qs": "6.14.1",
       "@sinclair/typebox": "0.34.48",
       "tar": "7.5.7",
-      "tough-cookie": "4.1.3"
+      "tough-cookie": "4.1.3",
+      "qs@>=6.7.0 <=6.14.1": ">=6.14.2"
     },
     "onlyBuiltDependencies": [
       "@lydell/node-pty",

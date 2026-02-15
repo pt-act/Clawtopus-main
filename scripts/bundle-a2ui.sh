@@ -11,17 +11,24 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 HASH_FILE="$ROOT_DIR/src/canvas-host/a2ui/.bundle.hash"
 OUTPUT_FILE="$ROOT_DIR/src/canvas-host/a2ui/a2ui.bundle.js"
 A2UI_RENDERER_DIR="$ROOT_DIR/vendor/a2ui/renderers/lit"
+# CanvasA2UI is optional - only needed for macOS app
 A2UI_APP_DIR="$ROOT_DIR/apps/shared/OpenClawKit/Tools/CanvasA2UI"
 
 # Docker builds exclude vendor/apps via .dockerignore.
 # In that environment we can keep a prebuilt bundle only if it exists.
-if [[ ! -d "$A2UI_RENDERER_DIR" || ! -d "$A2UI_APP_DIR" ]]; then
+# A2UI renderer is required, but CanvasA2UI (macOS) is optional
+if [[ ! -d "$A2UI_RENDERER_DIR" ]]; then
   if [[ -f "$OUTPUT_FILE" ]]; then
     echo "A2UI sources missing; keeping prebuilt bundle."
     exit 0
   fi
   echo "A2UI sources missing and no prebuilt bundle found at: $OUTPUT_FILE" >&2
   exit 1
+fi
+
+# Skip if CanvasA2UI is missing (optional for non-macOS builds)
+if [[ ! -d "$A2UI_APP_DIR" ]]; then
+  echo "CanvasA2UI (macOS) not found; building renderer only."
 fi
 
 INPUT_PATHS=(

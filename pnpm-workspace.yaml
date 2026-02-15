@@ -1,8 +1,9 @@
 packages:
   - .
-  - ui
-  - packages/*
-  - extensions/*
+  # Workspace packages excluded - require package rename to clawtopus
+  # - ui
+  # - packages/*
+  # - extensions/*
 
 onlyBuiltDependencies:
   - "@lydell/node-pty"
