@@ -10,6 +10,76 @@
 
 ---
 
+## 0. Heritage & Research Foundation
+
+Clawtopus builds on groundbreaking research and established open-source projects:
+
+### Research: Voyager Paper
+
+- **Paper**: [Voyager: An Open-Ended Learning Agent](https://arxiv.org/abs/2601.02553)
+- **Authors**: NVIDIA, MIT, Stanford et al.
+- **Key Contribution**: First framework for "open-ended" agent learning in Minecraft - persistent memory, skill library, iterative prompting
+
+### Original Code Voyager
+
+- **Repository**: [zenbase-ai/code-voyager](https://github.com/zenbase-ai/code-voyager)
+- **Purpose**: Implementation of Voyager paper principles
+- **Key Features**: Session brain, skill library, curriculum learning
+
+### SimpleMem
+
+- **Repository**: [aiming-lab/SimpleMem](https://github.com/aiming-lab/SimpleMem)
+- **Purpose**: Simplified memory system for LLM agents
+- **Key Contribution**: Clean implementation of semantic memory with embeddings
+
+### OpenClaw
+
+- **Repository**: [openclaw/openclaw](https://github.com/openclaw/openclaw)
+- **Purpose**: Multi-channel gateway (WhatsApp, Telegram, Discord, iMessage)
+- **Clawtopus Forked From**: This + Code Voyager memory features
+
+### Clawtopus Evolution
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Voyager Paper (arxiv)                     │
+│         "An Open-Ended Learning Agent" (2026)              │
+└─────────────────────────────┬───────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│              zenbase-ai/code-voyager                        │
+│         Implementation of Voyager for Claude Code           │
+└─────────────────────────────┬───────────────────────────────┘
+                              │
+              ┌───────────────┴───────────────┐
+              ▼                               ▼
+┌─────────────────────────┐     ┌─────────────────────────┐
+│   aiming-lab/SimpleMem │     │     OpenClaw           │
+│   Simplified memory    │     │   Multi-channel gateway │
+│   with embeddings     │     │   (WhatsApp, Telegram) │
+└───────────┬───────────┘     └───────────┬─────────────┘
+            │                             │
+            └─────────────┬───────────────┘
+                          ▼
+              ┌───────────────────────────────┐
+              │       CLAWTOPUS 🐙          │
+              │  Self-Evolving AI Assistant │
+              │  (Persistent Memory +       │
+              │   Multi-Channel Gateway)  │
+              └───────────────────────────────┘
+```
+
+### Why This Matters
+
+- **Research-backed**: Built on peer-reviewed research (Voyager paper)
+- **Proven foundations**: Code Voyager + SimpleMem implemented the core concepts
+- **Best of both**: Combines semantic memory (SimpleMem) with multi-channel (OpenClaw)
+- **Extended**: Adds multi-channel access to memory capabilities
+- **Practical**: Not just research - works with WhatsApp, Telegram, Discord
+
+---
+
 ## 1. Product Positioning & Value Proposition
 
 ### What is Clawtopus?
