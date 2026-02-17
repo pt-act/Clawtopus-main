@@ -16,6 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: pt-act/clawtopus-main
+  GH_CACHE_NAME: ${{ github.repository }}-${{ github.ref_name }}-amd64
 
 jobs:
   # Build amd64 image
@@ -62,6 +63,7 @@ jobs:
           platforms: linux/amd64
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ steps.meta.outputs.tags }}
+          no-cache: true
           provenance: false
           push: true
 
@@ -109,6 +111,7 @@ jobs:
           platforms: linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ steps.meta.outputs.tags }}
+          no-cache: true
           provenance: false
           push: true
 
