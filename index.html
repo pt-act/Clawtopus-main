@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clawtopus - Self-Evolving AI Assistant</title>
+    <meta
+      name="description"
+      content="Self-evolving AI assistant with exceptional memory. Built on OpenClaw with Session Brain, Atomic Facts, Skill Factory, and Curriculum Planner."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --primary-light: #818cf8;
+        --accent: #22d3ee;
+        --bg-dark: #0a0a0f;
+        --bg-card: #12121a;
+        --text: #e4e4e7;
+        --text-muted: #a1a1aa;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background: var(--bg-dark);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Animated background */
+      .bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .bg::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background:
+          radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 80%, rgba(34, 211, 238, 0.1) 0%, transparent 50%),
+          radial-gradient(ellipse at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+        animation: bgPulse 15s ease-in-out infinite;
+      }
+
+      @keyframes bgPulse {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        33% {
+          transform: translate(2%, 2%) rotate(1deg);
+        }
+        66% {
+          transform: translate(-1%, 1%) rotate(-1deg);
+        }
+      }
+
+      /* Grid pattern */
+      .grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+          linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      }
+
+      /* Header */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 1.25rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        background: rgba(10, 10, 15, 0.8);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: white;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      nav {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      nav a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      nav a:hover {
+        color: white;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+        cursor: pointer;
+        border: none;
+        font-size: 0.95rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: white;
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 30px rgba(99, 102, 241, 0.4);
+      }
+
+      /* Hero */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 8rem 2rem 4rem;
+        position: relative;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(99, 102, 241, 0.1);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        border-radius: 100px;
+        font-size: 0.875rem;
+        color: var(--primary-light);
+        margin-bottom: 2rem;
+      }
+
+      .hero-badge span {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.2);
+        }
+      }
+
+      h1 {
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #fff 0%, var(--primary-light) 50%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        margin-bottom: 2.5rem;
+        line-height: 1.7;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .btn-large {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 12px;
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      /* Octopus animation */
+      .octopus {
+        margin-top: 4rem;
+        font-size: 6rem;
+        animation: float 6s ease-in-out infinite;
+        filter: drop-shadow(0 20px 40px rgba(99, 102, 241, 0.3));
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      /* Features */
+      .features {
+        padding: 6rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .section-header p {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .feature-card {
+        background: var(--bg-card);
+        border: 1px solid rgba(99, 102, 241, 0.1);
+        border-radius: 20px;
+        padding: 2rem;
+        transition: all 0.3s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(99, 102, 241, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .feature-icon {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+      }
+
+      .feature-card p {
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      /* CTA */
+      .cta {
+        padding: 6rem 2rem;
+        text-align: center;
+      }
+
+      .cta-box {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(34, 211, 238, 0.05));
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        border-radius: 24px;
+        padding: 4rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .cta h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .cta p {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+
+      /* Footer */
+      footer {
+        padding: 3rem 2rem;
+        border-top: 1px solid rgba(99, 102, 241, 0.1);
+        text-align: center;
+        color: var(--text-muted);
+      }
+
+      footer a {
+        color: var(--primary-light);
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Mobile */
+      @media (max-width: 768px) {
+        header {
+          padding: 1rem;
+        }
+
+        nav {
+          display: none;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .octopus {
+          font-size: 4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg">
+      <div class="grid"></div>
+    </div>
+
+    <header>
+      <a href="/" class="logo">
+        <div class="logo-icon">🐙</div>
+        Clawtopus
+      </a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#docs">Documentation</a>
+        <a href="https://github.com/pt-act/Clawtopus-main">GitHub</a>
+        <a href="https://www.npmjs.com/package/clawtopus" class="btn btn-primary">npm</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-badge">
+        <span></span>
+        Self-Evolving AI Assistant
+      </div>
+
+      <h1>Eight Arms.<br />Infinite Memory.</h1>
+
+      <p>
+        Clawtopus is a self-evolving AI assistant with exceptional memory. Built on OpenClaw with
+        Session Brain, Atomic Facts, Skill Factory, and Curriculum Planner.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="https://ra-d860e963.mintlify.app" class="btn btn-primary btn-large"
+          >Get Started →</a
+        >
+        <a href="https://github.com/pt-act/Clawtopus-main" class="btn btn-secondary btn-large"
+          >View on GitHub</a
+        >
+      </div>
+
+      <div class="octopus">🐙</div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="section-header">
+        <h2>Why Clawtopus?</h2>
+        <p>Memory features that set us apart from every other AI assistant</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3>Session Brain</h3>
+          <p>
+            Persistent memory that survives restarts. Your conversations with Clawtopus build on
+            previous sessions, creating a continuous learning experience.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💎</div>
+          <h3>Atomic Facts</h3>
+          <p>
+            Granular knowledge storage with fast retrieval. Store individual facts that Clawtopus
+            can recall later, perfect for preferences and important info.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚙️</div>
+          <h3>Skill Factory</h3>
+          <p>
+            Auto-generates custom skills from your usage patterns. Clawtopus observes your workflows
+            and creates automation for repetitive tasks.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📚</div>
+          <h3>Curriculum Planner</h3>
+          <p>
+            Learns your workflow and creates personalized learning paths. Clawtopus adapts to become
+            more effective at tasks you care about.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Multi-Channel</h3>
+          <p>
+            WhatsApp, Telegram, Discord, iMessage - all connected through a single Gateway. Message
+            your AI from anywhere.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Self-Hosted</h3>
+          <p>
+            Runs on your hardware, your rules. Full control of your data with no external
+            dependencies.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="docs">
+      <div class="cta-box">
+        <h2>Ready to try Clawtopus?</h2>
+        <p>Get started in minutes. Install via npm and join the future of AI assistants.</p>
+        <a href="https://ra-d860e963.mintlify.app" class="btn btn-primary btn-large"
+          >Read the Docs →</a
+        >
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Built with ❤️ by the Clawtopus team •
+        <a href="https://github.com/pt-act/Clawtopus-main">GitHub</a> •
+        <a href="https://www.npmjs.com/package/clawtopus">NPM</a>
+      </p>
+    </footer>
+  </body>
+</html>
