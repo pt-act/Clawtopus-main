@@ -1,7 +1,7 @@
 {
   "name": "Clawtopus",
-  "logo": "/docs/logo.png",
-  "favicon": "/docs/assets/openclaw-logo-text.png",
+  "logo": "docs/logo.png",
+  "favicon": "docs/assets/openclaw-logo-text.png",
   "colors": {
     "primary": "#6366f1",
     "light": "#818cf8",
@@ -13,11 +13,6 @@
       "url": "https://github.com/pt-act/Clawtopus-main"
     }
   ],
-  "topbarCta": {
-    "name": "Download",
-    "url": "/docs/install"
-  },
-  "anchors": [],
   "navigation": [
     {
       "group": "Getting Started",
@@ -33,6 +28,6 @@
     }
   ],
   "footerSocials": {
-    "github": "https://github.com/clawtopus/clawtopus"
+    "github": "https://github.com/pt-act/Clawtopus-main"
   }
 }
