@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The eight-armed assistant with a memory that never forgets</strong><br>
-  <a href="https://ra-d860e963.mintlify.app/docs/index">📖 Documentation</a>
+  <a href="https://ra-d860e963.mintlify.app">📖 Documentation</a>
 </p>
 
 <p align="center">
