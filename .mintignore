@@ -1,0 +1,9 @@
+# Ignore large non-doc directories
+code-voyager/**
+extensions/**
+vendor/**
+node_modules/**
+dist/**
+test/**
+*.mp4
+*.zip

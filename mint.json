@@ -16,11 +16,11 @@
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["index", "install/index"]
+      "pages": ["docs/index", "docs/install/index"]
     },
     {
       "group": "Concepts",
-      "pages": ["concepts/memory", "concepts/compaction"]
+      "pages": ["docs/concepts/memory", "docs/concepts/compaction"]
     }
   ]
 }
