@@ -353,31 +353,29 @@
         line-height: 1.6;
       }
 
-      /* CTA */
-      .cta {
+      /* Quick Start */
+      .quick-start {
+        padding: 4rem 2rem;
+        text-align: center;
+        background: rgba(99, 102, 241, 0.05);
+      }
+
+      .code-block {
+        background: #1a1a2e;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        border-radius: 12px;
+        padding: 1.5rem 2rem;
+        display: inline-block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1.1rem;
+        color: var(--accent);
+        margin-top: 1.5rem;
+      }
+
+      /* Footer */
+      footer {
         padding: 6rem 2rem;
         text-align: center;
-      }
-
-      .cta-box {
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(34, 211, 238, 0.05));
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        border-radius: 24px;
-        padding: 4rem;
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      .cta h2 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-      }
-
-      .cta p {
-        color: var(--text-muted);
-        margin-bottom: 2rem;
-        font-size: 1.1rem;
       }
 
       /* Footer */
@@ -433,7 +431,7 @@
       </a>
       <nav>
         <a href="#features">Features</a>
-        <a href="#docs">Documentation</a>
+        <a href="#quick-start">Quick Start</a>
         <a href="https://github.com/pt-act/Clawtopus-main">GitHub</a>
         <a href="https://www.npmjs.com/package/clawtopus" class="btn btn-primary">npm</a>
       </nav>
@@ -442,18 +440,15 @@
     <section class="hero">
       <div class="hero-badge">
         <span></span>
-        Self-Evolving AI Assistant
+        β Beta
       </div>
 
       <h1>Eight Arms.<br />Infinite Memory.</h1>
 
-      <p>
-        Clawtopus is a self-evolving AI assistant with exceptional memory. Built on OpenClaw with
-        Session Brain, Atomic Facts, Skill Factory, and Curriculum Planner.
-      </p>
+      <p>Works everywhere. Installs everything. You're welcome. 🐙</p>
 
       <div class="hero-buttons">
-        <a href="https://docs.clawtopus.ai" class="btn btn-primary btn-large">Get Started →</a>
+        <a href="#quick-start" class="btn btn-primary btn-large">Quick Start →</a>
         <a href="https://github.com/pt-act/Clawtopus-main" class="btn btn-secondary btn-large"
           >View on GitHub</a
         >
@@ -525,11 +520,13 @@
       </div>
     </section>
 
-    <section class="cta" id="docs">
-      <div class="cta-box">
-        <h2>Ready to try Clawtopus?</h2>
-        <p>Get started in minutes. Install via npm and join the future of AI assistants.</p>
-        <a href="https://docs.clawtopus.ai" class="btn btn-primary btn-large">Read the Docs →</a>
+    <section class="quick-start" id="quick-start">
+      <div class="section-header">
+        <h2>Quick Start</h2>
+        <p>One-liner to install and run</p>
+      </div>
+      <div class="code-block">
+        <code>npm install -g clawtopus && clawtopus onboard</code>
       </div>
     </section>
 
