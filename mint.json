@@ -31,6 +31,8 @@
       "group": "Concepts",
       "pages": [
         "docs/concepts/memory",
+        "docs/concepts/skill-factory",
+        "docs/concepts/curriculum-planner",
         "docs/concepts/compaction",
         "docs/concepts/session",
         "docs/concepts/agent"
