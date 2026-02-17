@@ -215,6 +215,13 @@
         animation: pulse 2s infinite;
       }
 
+      .beta-hint {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-left: 0.25rem;
+      }
+      }
+
       @keyframes pulse {
         0%,
         100% {
@@ -360,6 +367,52 @@
         background: rgba(99, 102, 241, 0.05);
       }
 
+      .quick-start-details {
+        max-width: 600px;
+        margin: 2rem auto;
+        text-align: left;
+        background: var(--bg-card);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        border-radius: 16px;
+        padding: 2rem;
+      }
+
+      .quick-start-details h3 {
+        font-size: 1.1rem;
+        margin: 1.5rem 0 0.75rem;
+        color: var(--primary-light);
+      }
+
+      .quick-start-details h3:first-child {
+        margin-top: 0;
+      }
+
+      .quick-start-details ul, .quick-start-details ol {
+        margin-left: 1.5rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+      }
+
+      .quick-start-details code {
+        background: rgba(99, 102, 241, 0.2);
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--accent);
+      }
+
+      .quick-start-cta {
+        text-align: center;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(99, 102, 241, 0.2);
+      }
+
+      .quick-start-cta a {
+        color: var(--primary-light);
+        font-weight: 600;
+      }
+
       .code-block {
         background: #1a1a2e;
         border: 1px solid rgba(99, 102, 241, 0.3);
@@ -432,6 +485,7 @@
       <nav>
         <a href="#features">Features</a>
         <a href="#quick-start">Quick Start</a>
+        <a href="https://ra-d860e963.mintlify.app">Docs</a>
         <a href="https://github.com/pt-act/Clawtopus-main">GitHub</a>
         <a href="https://www.npmjs.com/package/clawtopus" class="btn btn-primary">npm</a>
       </nav>
@@ -440,7 +494,8 @@
     <section class="hero">
       <div class="hero-badge">
         <span></span>
-        β Beta
+        β Beta — Help shape Clawtopus!
+        <span class="beta-hint">(early release, feedback welcome)</span>
       </div>
 
       <h1>Eight Arms.<br />Infinite Memory.</h1>
@@ -527,6 +582,22 @@
       </div>
       <div class="code-block">
         <code>npm install -g clawtopus && clawtopus onboard</code>
+      </div>
+      <div class="quick-start-details">
+        <h3>Prerequisites</h3>
+        <ul>
+          <li><strong>Node.js</strong> 22+ (LTS)</li>
+          <li><strong>npm</strong> or <strong>pnpm</strong></li>
+        </ul>
+        <h3>What happens next?</h3>
+        <ol>
+          <li>Run <code>clawtopus gateway</code> to start the gateway</li>
+          <li>Connect your channels (WhatsApp, Telegram, Discord, iMessage)</li>
+          <li>Start chatting with <code>clawtopus send</code></li>
+        </ol>
+        <p class="quick-start-cta">
+          <a href="https://ra-d860e963.mintlify.app">Read the full documentation →</a>
+        </p>
       </div>
     </section>
 
