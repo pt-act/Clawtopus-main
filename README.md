@@ -22,6 +22,7 @@
 **Clawtopus** is a self-evolving fork of [OpenClaw](https://github.com/openclaw/openclaw) — a _personal AI assistant_ you run on your own devices.
 
 It extends OpenClaw with:
+
 - **Session Brain**: Persistent memory across sessions
 - **Atomic Facts**: Structured fact extraction from conversations
 - **Skill Factory**: Auto-generate skills from workflow patterns
@@ -69,6 +70,7 @@ For OpenClaw docs (most features apply): [docs.openclaw.ai](https://docs.opencla
 Clawtopus is a self-evolving fork of [OpenClaw](https://github.com/openclaw/openclaw). We regularly sync with upstream to get security fixes and new features while maintaining our unique memory capabilities.
 
 To sync with upstream:
+
 ```bash
 ./scripts/openclaw-sync.sh
 ```
@@ -76,14 +78,15 @@ To sync with upstream:
 ## License
 
 MIT
-   ```
+
+````
 
 2. During onboarding, use the `openrouter-free` preset (performs the same scan as part of setup):
 
-   ```bash
-   export OPENROUTER_API_KEY="sk-or-..."  # or be ready to paste
-   openclaw onboard --auth-choice openrouter-free
-   ```
+```bash
+export OPENROUTER_API_KEY="sk-or-..."  # or be ready to paste
+openclaw onboard --auth-choice openrouter-free
+````
 
 OpenRouter is an additional provider; Anthropic, OpenAI, and others continue to work as usual.  
 See the [OpenRouter provider docs](docs/providers/openrouter.md) and [model selection concepts](docs/concepts/models.md) for more details.
@@ -533,7 +536,7 @@ Use these when you’re past the onboarding flow and want the deeper reference.
 
 ## Molty
 
-OpenClaw was built for **Molty**, a space lobster AI assistant. 🦞
+OpenClaw was built for **Molty**, a space lobster AI assistant. 🐙
 by Peter Steinberger and the community.
 
 - [openclaw.ai](https://openclaw.ai)
