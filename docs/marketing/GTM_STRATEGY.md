@@ -1,5 +1,18 @@
 # Clawtopus Go-to-Market Strategy
 
+## "Eight Arms, Infinite Memory" — The Self-Evolving AI Assistant
+
+---
+
+## Executive Summary
+
+Clawtopus is a self-evolving fork of OpenClaw that differentiates through **persistent memory capabilities** — Session Brain, Atomic Facts, Skill Factory, and Curriculum Planner. While OpenClaw provides excellent multi-channel infrastructure for AI assistants, Clawtopus transforms ephemeral conversations into **continuous, learning relationships** that compound value over time.
+
+**Core Value Proposition:**  
+_"The AI assistant that actually remembers you. Clawtopus builds persistent context, learns your patterns, and auto-generates skills to become more helpful every day — all self-hosted on your own hardware."_
+
+---
+
 **Assumptions**:
 
 - Primary audience is developers/technical users initially
@@ -147,6 +160,25 @@ Users can define their AI's personality via SOUL.md:
 | Skill Automation  | Static skills only    | Skill Factory (auto-generates from patterns)  |
 | Learning          | None                  | Curriculum Planner (generates learning paths) |
 | Self-Evolving     | No                    | Yes - learns from every interaction           |
+
+### The Problem We Solve
+
+| Pain Point                                           | Current Solutions                                       | Clawtopus Advantage                               |
+| ---------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------- |
+| AI amnesia — conversations start fresh every session | Cloud AI services (ChatGPT, Claude) have limited memory | **Session Brain** provides persistent context     |
+| Manual workflow repetition                           | Users manually re-explain preferences                   | **Atomic Facts** stores granular knowledge        |
+| Generic, non-adaptive assistance                     | One-size-fits-all responses                             | **Skill Factory** auto-generates custom skills    |
+| Steep learning curves for personal tools             | Users must configure assistants manually                | **Curriculum Planner** creates personalized paths |
+| Data privacy concerns with cloud AI                  | Data sent to third-party servers                        | **Self-hosted** — full control                    |
+
+### Objection Handling
+
+| Objection                                 | Response                                                                                                                  |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| "OpenClaw already exists — why fork?"     | "OpenClaw is infrastructure. Clawtopus adds a memory layer that transforms one-off chats into compounding relationships." |
+| "Self-hosting is too complicated"         | "One command: `npm install -g clawtopus && clawtopus onboard`"                                                            |
+| "How is memory different from ChatGPT's?" | "ChatGPT's memory is cloud-stored, limited. Clawtopus stores facts locally with semantic search."                         |
+| "What about model costs?"                 | "Use OpenRouter free tier to start. No Clawtopus subscription — just your model costs."                                   |
 
 ### Competitive Positioning
 
@@ -473,6 +505,64 @@ Curriculum Planner → "Onboarding at the speed of code"
 - [ ] Start Twitter/X posting cadence
 - [ ] Host first office hours
 - [ ] Set up analytics (Plausible/GA4)
+
+---
+
+## 9. Launch Timeline
+
+### Pre-Launch (Weeks 1-4)
+
+| Week | Focus       | Deliverables                                           |
+| ---- | ----------- | ------------------------------------------------------ |
+| 1    | Foundation  | README polish, landing page draft, Discord setup       |
+| 2    | Assets      | Demo video, comparison page, documentation structure   |
+| 3    | Content     | "Why We Forked" blog post, technical architecture post |
+| 4    | Soft Launch | Private beta with 20-50 early adopters                 |
+
+### Launch Week
+
+| Day       | Activity                                    |
+| --------- | ------------------------------------------- |
+| Monday    | Final asset review, Product Hunt submission |
+| Tuesday   | Product Hunt launch + Hacker News Show HN   |
+| Wednesday | Reddit posts (r/selfhosted, r/LocalLLaMA)   |
+| Thursday  | Twitter announcement thread                 |
+| Friday    | Community engagement, respond to feedback   |
+
+### Post-Launch
+
+| Month | Focus                                      |
+| ----- | ------------------------------------------ |
+| 2-3   | Community building, contributor onboarding |
+| 4-6   | SEO ramp-up, first case studies            |
+| 7-9   | Feature releases based on feedback         |
+| 10-12 | Scale community programs                   |
+
+---
+
+## 10. Risks & Mitigations
+
+### Key Risks
+
+| Risk                                  | Likelihood | Impact | Mitigation                                                      |
+| ------------------------------------- | ---------- | ------ | --------------------------------------------------------------- |
+| OpenClaw becomes hostile to fork      | Low        | High   | Maintain good relationship, emphasize complementary positioning |
+| Technical issues with memory features | Medium     | High   | Extensive testing, beta program                                 |
+| Low initial adoption                  | Medium     | Medium | Focus on quality, iterate on messaging                          |
+| Contributor burnout                   | Medium     | Medium | Build sustainable team, set boundaries                          |
+| Competitor copies features            | Low        | Low    | First-mover advantage, community moat                           |
+
+---
+
+## 11. Competitive Landscape
+
+| Competitor    | Type        | Memory      | Self-Hosted | Multi-Channel | Pricing    |
+| ------------- | ----------- | ----------- | ----------- | ------------- | ---------- |
+| **ChatGPT**   | Cloud       | Limited     | ❌          | ❌            | $20-200/mo |
+| **Claude**    | Cloud       | Limited     | ❌          | ❌            | $20-100/mo |
+| **OpenClaw**  | Self-hosted | ❌          | ✅          | ✅            | Free       |
+| **Leon AI**   | Self-hosted | Basic       | ✅          | ❌            | Free       |
+| **Clawtopus** | Self-hosted | ✅ Advanced | ✅          | ✅            | Free       |
 
 ---
 
