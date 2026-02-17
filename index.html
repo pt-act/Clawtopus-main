@@ -118,15 +118,29 @@
         text-decoration: none;
       }
 
-      .logo-icon {
+      .logo-img {
         width: 40px;
         height: 40px;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
+        border-radius: 10px;
+      }
+
+      .hero-logo {
+        width: 200px;
+        height: 200px;
+        margin-top: 3rem;
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
       }
 
       nav {
@@ -414,7 +428,7 @@
 
     <header>
       <a href="/" class="logo">
-        <div class="logo-icon">🐙</div>
+        <img src="docs/logo.png" alt="Clawtopus" class="logo-img" />
         Clawtopus
       </a>
       <nav>
@@ -439,15 +453,13 @@
       </p>
 
       <div class="hero-buttons">
-        <a href="https://ra-d860e963.mintlify.app" class="btn btn-primary btn-large"
-          >Get Started →</a
-        >
+        <a href="https://docs.clawtopus.ai" class="btn btn-primary btn-large">Get Started →</a>
         <a href="https://github.com/pt-act/Clawtopus-main" class="btn btn-secondary btn-large"
           >View on GitHub</a
         >
       </div>
 
-      <div class="octopus">🐙</div>
+      <img src="docs/logo.png" alt="Clawtopus" class="hero-logo" />
     </section>
 
     <section class="features" id="features">
@@ -517,9 +529,7 @@
       <div class="cta-box">
         <h2>Ready to try Clawtopus?</h2>
         <p>Get started in minutes. Install via npm and join the future of AI assistants.</p>
-        <a href="https://ra-d860e963.mintlify.app" class="btn btn-primary btn-large"
-          >Read the Docs →</a
-        >
+        <a href="https://docs.clawtopus.ai" class="btn btn-primary btn-large">Read the Docs →</a>
       </div>
     </section>
 
