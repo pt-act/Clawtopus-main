@@ -50,7 +50,7 @@ clawtopus agent --message "Ship checklist" --thinking high
 
 ## Documentation
 
-Full documentation coming soon at [docs.clawtopus.ai](https://docs.clawtopus.ai).
+Full documentation coming soon at [(https://ra-d860e963.mintlify.app/docs)).
 
 For OpenClaw docs (most features apply): [docs.openclaw.ai](https://docs.openclaw.ai)
 
