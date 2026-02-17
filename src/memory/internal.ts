@@ -51,7 +51,7 @@ export function isMemoryPath(relPath: string): boolean {
   if (normalized === "MEMORY.md" || normalized === "memory.md") {
     return true;
   }
-  return normalized.startsWith("memory/");
+  return normalized.startsWith("memory/") || normalized.startsWith("memory_bank/");
 }
 
 async function walkDir(dir: string, files: string[]) {
@@ -83,6 +83,7 @@ export async function listMemoryFiles(
   const memoryFile = path.join(workspaceDir, "MEMORY.md");
   const altMemoryFile = path.join(workspaceDir, "memory.md");
   const memoryDir = path.join(workspaceDir, "memory");
+  const memoryBankDir = path.join(workspaceDir, "memory_bank");
 
   const addMarkdownFile = async (absPath: string) => {
     try {
@@ -97,14 +98,50 @@ export async function listMemoryFiles(
     } catch {}
   };
 
-  await addMarkdownFile(memoryFile);
-  await addMarkdownFile(altMemoryFile);
+  // Priority order for in-project memory loading:
+  // 1. memory_bank/ directory (Orion-OS style structured memory)
+  // 2. memory/ directory (legacy structured memory)
+  // 3. MEMORY.md or memory.md (flat file fallback)
+
+  // Check for memory_bank/ first (preferred for end-user projects)
   try {
-    const dirStat = await fs.lstat(memoryDir);
-    if (!dirStat.isSymbolicLink() && dirStat.isDirectory()) {
-      await walkDir(memoryDir, result);
+    const memoryBankStat = await fs.lstat(memoryBankDir);
+    if (!memoryBankStat.isSymbolicLink() && memoryBankStat.isDirectory()) {
+      // Load memory_bank files in priority order for context coherence
+      const priorityFiles = [
+        "PROJECT_CONTEXT.md",
+        "PROJECT_STATE.md",
+        "USER_PREFERENCES.md",
+        "DECISIONS.md",
+        "SKILLS.md",
+        "CURRICULUM.md",
+      ];
+
+      for (const filename of priorityFiles) {
+        await addMarkdownFile(path.join(memoryBankDir, filename));
+      }
+
+      // Then load any other .md files in memory_bank/
+      const entries = await fs.readdir(memoryBankDir, { withFileTypes: true });
+      for (const entry of entries) {
+        if (entry.isFile() && entry.name.endsWith(".md") && !priorityFiles.includes(entry.name)) {
+          await addMarkdownFile(path.join(memoryBankDir, entry.name));
+        }
+      }
     }
   } catch {}
+
+  // Fallback to legacy memory/ directory if memory_bank/ doesn't exist
+  if (result.length === 0) {
+    await addMarkdownFile(memoryFile);
+    await addMarkdownFile(altMemoryFile);
+    try {
+      const dirStat = await fs.lstat(memoryDir);
+      if (!dirStat.isSymbolicLink() && dirStat.isDirectory()) {
+        await walkDir(memoryDir, result);
+      }
+    } catch {}
+  }
 
   const normalizedExtraPaths = normalizeExtraMemoryPaths(workspaceDir, extraPaths);
   if (normalizedExtraPaths.length > 0) {

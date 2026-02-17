@@ -11,6 +11,7 @@ import type {
   PluginLogger,
 } from "./types.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
+import { registerCoreMemoryBankHooks } from "../memory/register-core-hooks.js";
 import { resolveUserPath } from "../utils.js";
 import { clearPluginCommands } from "./commands.js";
 import {
@@ -446,6 +447,9 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
       message: `memory slot plugin not found or not marked as memory: ${memorySlot}`,
     });
   }
+
+  // Register core hooks (memory_bank auto-updates, etc.)
+  registerCoreMemoryBankHooks(registry);
 
   if (cacheEnabled) {
     registryCache.set(cacheKey, registry);

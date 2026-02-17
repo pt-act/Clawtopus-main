@@ -4,6 +4,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { resolveDefaultAgentId } from "../agents/agent-scope.js";
+import { loadBrain } from "../agents/session-brain/store.js";
 import { loadConfig } from "../config/config.js";
 import { resolveStateDir } from "../config/paths.js";
 import { resolveSessionTranscriptsDirForAgent } from "../config/sessions/paths.js";
@@ -16,7 +17,6 @@ import { colorize, isRich, theme } from "../terminal/theme.js";
 import { shortenHomeInString, shortenHomePath } from "../utils.js";
 import { formatErrorMessage, withManager } from "./cli-utils.js";
 import { withProgress, withProgressTotals } from "./progress.js";
-import { loadBrain } from "../agents/session-brain/store.js";
 
 type MemoryCommandOptions = {
   agent?: string;
@@ -495,6 +495,58 @@ export function registerMemoryCli(program: Command) {
     );
 
   memory
+    .command("init-memory-bank")
+    .description("Initialize memory_bank/ structure in current workspace")
+    .option("--workspace <path>", "Workspace directory (default: current directory)")
+    .action(async (opts: { workspace?: string }) => {
+      const { initializeMemoryBank } = await import("../memory/memory-bank-updater.js");
+      const workspaceDir = opts.workspace || process.cwd();
+
+      try {
+        const created = await initializeMemoryBank(workspaceDir);
+
+        if (created) {
+          const rich = isRich();
+          const success = (text: string) => colorize(rich, theme.success, text);
+          const info = (text: string) => colorize(rich, theme.info, text);
+          const muted = (text: string) => colorize(rich, theme.muted, text);
+
+          defaultRuntime.log(success("✓") + " Memory bank initialized successfully!");
+          defaultRuntime.log("");
+          defaultRuntime.log(muted("Created files:"));
+          defaultRuntime.log(`  ${info("memory_bank/PROJECT_CONTEXT.md")} - Project overview`);
+          defaultRuntime.log(
+            `  ${info("memory_bank/PROJECT_STATE.md")} - Session history (auto-updated)`,
+          );
+          defaultRuntime.log(`  ${info("memory_bank/USER_PREFERENCES.md")} - Your work style`);
+          defaultRuntime.log(`  ${info("memory_bank/DECISIONS.md")} - Architectural decisions`);
+          defaultRuntime.log(`  ${info("memory_bank/SKILLS.md")} - Reusable patterns`);
+          defaultRuntime.log(`  ${info("memory_bank/CURRICULUM.md")} - Learning roadmap`);
+          defaultRuntime.log("");
+          defaultRuntime.log(muted("Next steps:"));
+          defaultRuntime.log(
+            `  1. Edit ${info("memory_bank/PROJECT_CONTEXT.md")} to describe your project`,
+          );
+          defaultRuntime.log(
+            `  2. Customize ${info("memory_bank/USER_PREFERENCES.md")} for your preferences`,
+          );
+          defaultRuntime.log(
+            `  3. Start working - Clawtopus will auto-update ${info("PROJECT_STATE.md")}`,
+          );
+        } else {
+          const warn = (text: string) => colorize(isRich(), theme.warn, text);
+          defaultRuntime.log(warn("⚠") + " memory_bank/ already exists in this workspace.");
+          defaultRuntime.log("");
+          defaultRuntime.log("No files were created or modified.");
+        }
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        defaultRuntime.error(`Failed to initialize memory_bank: ${message}`);
+        process.exitCode = 1;
+      }
+    });
+
+  memory
     .command("status")
     .description("Show memory search index status")
     .option("--agent <id>", "Agent id (default: default agent)")
@@ -713,7 +765,13 @@ export function registerMemoryCli(program: Command) {
   memory
     .command("brain")
     .description("Session Brain - persistent memory across sessions")
-    .addHelpText("after", () => "\n" + theme.muted("Subcommands:") + "\n  status  - Show brain status\n  update  - Update brain from session\n  inject  - Show brain context for injection\n");
+    .addHelpText(
+      "after",
+      () =>
+        "\n" +
+        theme.muted("Subcommands:") +
+        "\n  status  - Show brain status\n  update  - Update brain from session\n  inject  - Show brain context for injection\n",
+    );
 
   memory
     .command("brain:status")
@@ -739,7 +797,13 @@ export function registerMemoryCli(program: Command) {
         "",
       ];
 
-      const byType: Record<string, number> = { goal: 0, decision: 0, progress: 0, blocked: 0, note: 0 };
+      const byType: Record<string, number> = {
+        goal: 0,
+        decision: 0,
+        progress: 0,
+        blocked: 0,
+        note: 0,
+      };
       for (const entry of brain.entries) {
         byType[entry.type] = (byType[entry.type] || 0) + 1;
       }
@@ -782,13 +846,16 @@ export function registerMemoryCli(program: Command) {
     .action(async (opts: { session?: string }) => {
       const sessionKey = opts.session?.trim();
       if (!sessionKey) {
-        defaultRuntime.error("Missing --session <key>. Run 'openclaw sessions' to list active sessions.");
+        defaultRuntime.error(
+          "Missing --session <key>. Run 'openclaw sessions' to list active sessions.",
+        );
         defaultRuntime.exit(1);
         return;
       }
 
       try {
-        const { loadSessionStore, resolveDefaultSessionStorePath } = await import("../config/sessions.js");
+        const { loadSessionStore, resolveDefaultSessionStorePath } =
+          await import("../config/sessions.js");
         const storePath = resolveDefaultSessionStorePath();
         const store = loadSessionStore(storePath, { skipCache: true });
         const entry = store[sessionKey] as { sessionId?: string; sessionFile?: string } | undefined;
@@ -802,7 +869,9 @@ export function registerMemoryCli(program: Command) {
         const sessionFile = entry.sessionFile || entry.sessionId;
         const stateDir = (await import("../config/paths.js")).resolveStateDir();
         const sessionsDir = stateDir + "/agents/default/sessions";
-        const fullPath = sessionFile.includes("/") ? sessionFile : `${sessionsDir}/${sessionFile}.jsonl`;
+        const fullPath = sessionFile.includes("/")
+          ? sessionFile
+          : `${sessionsDir}/${sessionFile}.jsonl`;
 
         const { updateBrainFromSession } = await import("../agents/session-brain/update.js");
         const result = updateBrainFromSession(entry.sessionId, fullPath);
@@ -835,7 +904,13 @@ export function registerMemoryCli(program: Command) {
   memory
     .command("facts")
     .description("Atomic Facts - structured memory from sessions")
-    .addHelpText("after", () => "\n" + theme.muted("Subcommands:") + "\n  status  - Show facts count\n  search <query>  - Search facts\n  clear  - Clear all facts\n");
+    .addHelpText(
+      "after",
+      () =>
+        "\n" +
+        theme.muted("Subcommands:") +
+        "\n  status  - Show facts count\n  search <query>  - Search facts\n  clear  - Clear all facts\n",
+    );
 
   memory
     .command("facts:status")
@@ -902,7 +977,13 @@ export function registerMemoryCli(program: Command) {
   skill
     .command("factory")
     .description("Skill Factory - workflow pattern detection")
-    .addHelpText("after", () => "\n" + theme.muted("Subcommands:") + "\n  patterns  - List detected patterns\n  propose <pattern>  - Generate skill proposal\n");
+    .addHelpText(
+      "after",
+      () =>
+        "\n" +
+        theme.muted("Subcommands:") +
+        "\n  patterns  - List detected patterns\n  propose <pattern>  - Generate skill proposal\n",
+    );
 
   skill
     .command("factory:patterns")
@@ -925,10 +1006,7 @@ export function registerMemoryCli(program: Command) {
         return;
       }
 
-      const lines = [
-        heading("Workflow Patterns"),
-        "",
-      ];
+      const lines = [heading("Workflow Patterns"), ""];
 
       for (const pattern of patterns.slice(0, 10)) {
         lines.push(muted(`${pattern.name}`));
@@ -947,7 +1025,8 @@ export function registerMemoryCli(program: Command) {
     .argument("<query>", "Search query")
     .option("--limit <n>", "Max results", (v: string) => Number(v), 5)
     .action(async (query: string, opts: { limit?: number }) => {
-      const { searchSkills, formatSearchResults } = await import("../agents/skill-factory/retrieval.js");
+      const { searchSkills, formatSearchResults } =
+        await import("../agents/skill-factory/retrieval.js");
       const results = searchSkills(query, opts.limit || 5);
       if (results.length === 0) {
         defaultRuntime.log("No skills or patterns found.");
@@ -959,7 +1038,13 @@ export function registerMemoryCli(program: Command) {
   const curriculum = program
     .command("curriculum")
     .description("Curriculum Planner - generate learning roadmaps")
-    .addHelpText("after", () => "\n" + theme.muted("Subcommands:") + "\n  plan <target>  - Generate curriculum\n  list  - List saved curriculums\n  show <id>  - Show curriculum details\n");
+    .addHelpText(
+      "after",
+      () =>
+        "\n" +
+        theme.muted("Subcommands:") +
+        "\n  plan <target>  - Generate curriculum\n  list  - List saved curriculums\n  show <id>  - Show curriculum details\n",
+    );
 
   curriculum
     .command("plan")
@@ -1023,7 +1108,8 @@ export function registerMemoryCli(program: Command) {
     .description("Show curriculum details")
     .argument("<id>", "Curriculum ID")
     .action(async (id: string) => {
-      const { loadCurriculum, formatCurriculumAsMarkdown } = await import("../agents/curriculum/planner.js");
+      const { loadCurriculum, formatCurriculumAsMarkdown } =
+        await import("../agents/curriculum/planner.js");
       const curriculum = loadCurriculum(id);
 
       if (!curriculum) {

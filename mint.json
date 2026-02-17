@@ -61,7 +61,7 @@
     },
     {
       "group": "Resources",
-      "pages": ["docs/marketing/GTM_STRATEGY"]
+      "pages": ["docs/help/faq", "docs/marketing/GTM_STRATEGY"]
     }
   ]
 }
