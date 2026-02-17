@@ -7,8 +7,8 @@
     "library": "lucide"
   },
   "logo": {
-    "light": "docs/logo.png",
-    "dark": "docs/logo.png"
+    "light": "/docs/logo.png",
+    "dark": "/docs/logo.png"
   },
   "fonts": {
     "body": {
@@ -18,7 +18,7 @@
       "family": "DM Sans"
     }
   },
-  "favicon": "docs/logo.png",
+  "favicon": "/docs/logo.png",
   "colors": {
     "primary": "#6366f1",
     "dark": "#4f46e5",
@@ -36,12 +36,12 @@
     "links": [
       {
         "label": "GitHub",
-        "href": "https://github.com/openclaw/openclaw",
+        "href": "https://github.com/pt-act/Clawtopus-main",
         "icon": "github"
       },
       {
-        "label": "Releases",
-        "href": "https://github.com/openclaw/openclaw/releases",
+        "label": "NPM",
+        "href": "https://www.npmjs.com/package/clawtopus",
         "icon": "package"
       }
     ]
