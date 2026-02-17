@@ -1,7 +1,7 @@
 {
   "name": "Clawtopus",
   "logo": "docs/logo.png",
-  "favicon": "docs/assets/openclaw-logo-text.png",
+  "favicon": "docs/logo.png",
   "colors": {
     "primary": "#6366f1",
     "light": "#818cf8",

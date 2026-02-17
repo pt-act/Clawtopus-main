@@ -7,8 +7,8 @@
     "library": "lucide"
   },
   "logo": {
-    "light": "/logo.png",
-    "dark": "/logo.png"
+    "light": "docs/logo.png",
+    "dark": "docs/logo.png"
   },
   "fonts": {
     "body": {
@@ -18,7 +18,7 @@
       "family": "DM Sans"
     }
   },
-  "favicon": "/logo.png",
+  "favicon": "docs/logo.png",
   "colors": {
     "primary": "#6366f1",
     "dark": "#4f46e5",
