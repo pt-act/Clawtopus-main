@@ -368,6 +368,89 @@
         line-height: 1.6;
       }
 
+      /* Eight Arms */
+      .eight-arms {
+        padding: 6rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .arms-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      @media (max-width: 900px) {
+        .arms-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 500px) {
+        .arms-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .arm-card {
+        background: var(--bg-card);
+        border: 1px solid rgba(99, 102, 241, 0.15);
+        border-radius: 16px;
+        padding: 1.5rem;
+        position: relative;
+        transition: all 0.3s;
+      }
+
+      .arm-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(99, 102, 241, 0.4);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .arm-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .arm-number {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 24px;
+        height: 24px;
+        background: var(--primary);
+        border-radius: 50%;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .arm-card h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text);
+      }
+
+      .arm-card p {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      .arms-tagline {
+        margin-top: 2.5rem;
+        font-size: 1.1rem;
+        color: var(--primary-light);
+        font-weight: 500;
+      }
+
       /* Quick Start */
       .quick-start {
         padding: 4rem 2rem;
@@ -519,8 +602,9 @@
       </a>
       <nav>
         <a href="#features">Features</a>
+        <a href="#eight-arms">Eight Arms</a>
         <a href="#quick-start">Quick Start</a>
-        <a href="https://ra-d860e963.mintlify.app">Docs</a>
+        <a href="https://docs.clawtopus.ai">Docs</a>
         <a href="https://github.com/pt-act/Clawtopus-main">GitHub</a>
         <a href="https://www.npmjs.com/package/clawtopus" class="btn btn-primary">npm</a>
       </nav>
@@ -610,6 +694,66 @@
       </div>
     </section>
 
+    <section class="eight-arms" id="eight-arms">
+      <div class="section-header">
+        <h2>🐙 The Eight Arms of Clawtopus</h2>
+        <p>Why we evolved from OpenClaw — each arm is a different capability</p>
+      </div>
+      <div class="arms-grid">
+        <div class="arm-card">
+          <div class="arm-icon">🧠</div>
+          <div class="arm-number">1</div>
+          <h3>Session Brain</h3>
+          <p>Holds memory across sessions — never start fresh again</p>
+        </div>
+        <div class="arm-card">
+          <div class="arm-icon">💎</div>
+          <div class="arm-number">2</div>
+          <h3>Atomic Facts</h3>
+          <p>Grabs and stores granular knowledge instantly</p>
+        </div>
+        <div class="arm-card">
+          <div class="arm-icon">⚙️</div>
+          <div class="arm-number">3</div>
+          <h3>Skill Factory</h3>
+          <p>Builds custom skills from your patterns</p>
+        </div>
+        <div class="arm-card">
+          <div class="arm-icon">📚</div>
+          <div class="arm-number">4</div>
+          <h3>Curriculum Planner</h3>
+          <p>Generates learning paths for your stack</p>
+        </div>
+        <div class="arm-card">
+          <div class="arm-icon">🌐</div>
+          <div class="arm-number">5</div>
+          <h3>Multi-Channel</h3>
+          <p>Connects everywhere — WhatsApp, Telegram, Discord</p>
+        </div>
+        <div class="arm-card">
+          <div class="arm-icon">📁</div>
+          <div class="arm-number">6</div>
+          <h3>Memory Bank</h3>
+          <p>Structures project knowledge for every project</p>
+        </div>
+        <div class="arm-card">
+          <div class="arm-icon">❤️</div>
+          <div class="arm-number">7</div>
+          <h3>SOUL.md</h3>
+          <p>Defines your AI's personality and identity</p>
+        </div>
+        <div class="arm-card">
+          <div class="arm-icon">🔒</div>
+          <div class="arm-number">8</div>
+          <h3>Self-Hosted</h3>
+          <p>Protects your data — your machine, your rules</p>
+        </div>
+      </div>
+      <p class="arms-tagline">
+        "Eight arms, infinite memory" — each arm is a different capability working together as one.
+      </p>
+    </section>
+
     <section class="quick-start" id="quick-start">
       <div class="section-header">
         <h2>Quick Start</h2>
@@ -631,7 +775,7 @@
           <li>Start chatting with <code>clawtopus send</code></li>
         </ol>
         <p class="quick-start-cta">
-          <a href="https://ra-d860e963.mintlify.app">Read the full documentation →</a>
+          <a href="https://docs.clawtopus.ai">Read the full documentation →</a>
         </p>
       </div>
     </section>

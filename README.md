@@ -57,6 +57,25 @@ Learns your workflow and creates personalized learning paths. Clawtopus adapts t
 
 ---
 
+## 🐙 The Eight Arms of Clawtopus
+
+_Why we evolved from OpenClaw into Clawtopus — each arm represents a different capability:_
+
+| Arm          | Feature            | What It Does                                           |
+| ------------ | ------------------ | ------------------------------------------------------ |
+| 🦷 **Arm 1** | Session Brain      | Holds memory across sessions — never start fresh again |
+| 💎 **Arm 2** | Atomic Facts       | Grabs and stores granular knowledge instantly          |
+| ⚙️ **Arm 3** | Skill Factory      | Builds custom skills from your patterns                |
+| 📚 **Arm 4** | Curriculum Planner | Generates learning paths for your stack                |
+| 🌐 **Arm 5** | Multi-Channel      | Connects everywhere — WhatsApp, Telegram, Discord      |
+| 📁 **Arm 6** | Memory Bank        | Structures project knowledge for every project         |
+| ❤️ **Arm 7** | SOUL.md            | Defines your AI's personality and identity             |
+| 🔒 **Arm 8** | Self-Hosted        | Protects your data — your machine, your rules          |
+
+> **"Eight arms, infinite memory"** — each arm is a different capability working together as one.
+
+---
+
 ## 🏠 Memory Bank: Your Project's Soul
 
 Every project you work on with Clawtopus gets its own memory infrastructure:
