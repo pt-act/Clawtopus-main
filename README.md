@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Eight arms. Infinite memory.</strong><br>
-  <a href="https://docs.clawtopus.ai">📖 Documentation</a>
+  <a href="[https://ra-d860e963.mintlify.app/docs)">📖 Documentation</a>
 </p>
 
 <p align="center">
@@ -145,7 +145,7 @@ Clawtopus is a self-evolving fork of [OpenClaw](https://github.com/openclaw/open
 
 ## 📖 Documentation
 
-- **Clawtopus Docs**: [docs.clawtopus.ai](https://docs.clawtopus.ai)
+- **Clawtopus Docs**: [https://ra-d860e963.mintlify.app/docs)
 - **OpenClaw Docs** (most features apply): [docs.openclaw.ai](https://docs.openclaw.ai)
 
 ---
