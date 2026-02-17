@@ -1,4 +1,4 @@
-# 🐙 Clawtopus — Self-Evolving AI Assistant
+# <img src="images/logo-emoji-64.png" alt="🐙" width="32" height="32" /> Clawtopus — Self-Evolving AI Assistant
 
 <p align="center">
     <img src="images/logo.png" alt="Clawtopus" width="300">
@@ -57,7 +57,7 @@ Learns your workflow and creates personalized learning paths. Clawtopus adapts t
 
 ---
 
-## 🐙 The Eight Arms of Clawtopus
+## <img src="images/logo-emoji-64.png" alt="🐙" width="24" height="24" /> The Eight Arms of Clawtopus
 
 _Why we evolved from OpenClaw into Clawtopus — each arm represents a different capability:_
 

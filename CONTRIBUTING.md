@@ -2,7 +2,7 @@
 
 > "Eight arms, infinite memory."
 
-Welcome to the octopus garden! 🐙
+Welcome to the octopus garden! <img src="images/logo-emoji-64.png" alt="🐙" width="20" height="20" />
 
 ## Quick Links
 

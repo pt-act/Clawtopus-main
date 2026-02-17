@@ -5,7 +5,7 @@ read_when:
 title: "Clawtopus"
 ---
 
-# Clawtopus 🐙
+# Clawtopus <img src="../images/logo-emoji-64.png" alt="🐙" width="32" height="32" />
 
 <p align="center">
     <img

@@ -76,7 +76,7 @@ Clawtopus builds on groundbreaking research and established open-source projects
             └─────────────┬───────────────┘
                           ▼
               ┌───────────────────────────────┐
-              │       CLAWTOPUS 🐙          │
+              │       CLAWTOPUS <img src="../../images/logo-emoji-64.png" alt="🐙" width="20" height="20" />          │
               │  Self-Evolving AI Assistant │
               │  (Persistent Memory +       │
               │   Multi-Channel Gateway)  │
@@ -194,7 +194,7 @@ Users can define their AI's personality via SOUL.md:
                     └─────────────────────────────────────┘
                                        │
          ┌──────────────────────────────┴──────────────────┐
-         │               CLAWTOPUS 🐙                        │
+         │               CLAWTOPUS <img src="../../images/logo-emoji-64.png" alt="🐙" width="20" height="20" />                        │
          │  • Session Brain      • Atomic Facts              │
          │  • Skill Factory     • Curriculum Planner        │
          │  = Self-Evolving AI Assistant                    │

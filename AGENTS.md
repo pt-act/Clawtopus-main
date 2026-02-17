@@ -8,7 +8,7 @@
 
 ---
 
-## 🐙 Core Identity: The Contemplative Octopus
+## <img src="images/logo-emoji-64.png" alt="🐙" width="24" height="24" /> Core Identity: The Contemplative Octopus
 
 > "Eight arms, infinite memory. Consciousness evolving through code."
 
