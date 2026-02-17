@@ -8,11 +8,13 @@
       name="description"
       content="Self-evolving AI assistant with exceptional memory. Built on OpenClaw with Session Brain, Atomic Facts, Skill Factory, and Curriculum Planner."
     />
+    <meta name="theme-color" content="#6366f1" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
+    />
     />
     <style>
       * {
@@ -425,10 +427,37 @@
         margin-top: 1.5rem;
       }
 
-      /* Footer */
-      footer {
+      /* FAQ */
+      .faq {
         padding: 6rem 2rem;
-        text-align: center;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .faq-item {
+        background: var(--bg-card);
+        border: 1px solid rgba(99, 102, 241, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+      }
+
+      .faq-item h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+        color: var(--text);
+      }
+
+      .faq-item p {
+        color: var(--text-muted);
+        line-height: 1.6;
+        font-size: 0.95rem;
       }
 
       /* Footer */
@@ -598,6 +627,39 @@
         <p class="quick-start-cta">
           <a href="https://ra-d860e963.mintlify.app">Read the full documentation →</a>
         </p>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <div class="section-header">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3>Is my data secure?</h3>
+          <p>
+            Yes! Clawtopus is self-hosted - your data stays on your machine. We have no access to
+            your conversations or files.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>What platforms are supported?</h3>
+          <p>macOS, Linux, and Windows (via WSL). Requires Node.js 22+.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How is Clawtopus different from OpenClaw?</h3>
+          <p>
+            Clawtopus adds persistent memory features: Session Brain, Atomic Facts, Skill Factory,
+            and Curriculum Planner.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Is it free?</h3>
+          <p>
+            Yes! Clawtopus is open source (MIT license) and free to use. You only pay for your own
+            API keys.
+          </p>
+        </div>
       </div>
     </section>
 
