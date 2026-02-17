@@ -1,6 +1,9 @@
 name: Docker Release
 
 on:
+  # Disable for now - can be re-enabled after initial setup
+  workflow_dispatch:
+
   push:
     branches:
       - main
@@ -25,6 +28,9 @@ jobs:
     permissions:
       packages: write
       contents: read
+    env:
+      BUILDKIT_PROGRESS: plain
+      DOCKER_BUILDKIT: "1"
     outputs:
       image-digest: ${{ steps.build.outputs.digest }}
       image-metadata: ${{ steps.meta.outputs.json }}
