@@ -1,7 +1,7 @@
 {
   "name": "Clawtopus",
-  "logo": "images/logo.png",
-  "favicon": "images/logo.png",
+  "logo": "/images/logo.png",
+  "favicon": "/images/logo.png",
   "colors": {
     "primary": "#6366f1",
     "light": "#818cf8",
