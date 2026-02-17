@@ -32,7 +32,7 @@
       "pages": ["pi", "logging"]
     },
     {
-      "group": "Help",
+      "group": "Resources",
       "pages": ["help"]
     }
   ],

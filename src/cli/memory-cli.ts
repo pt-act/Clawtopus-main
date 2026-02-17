@@ -1009,7 +1009,7 @@ export function registerMemoryCli(program: Command) {
       const lines = [heading("Workflow Patterns"), ""];
 
       for (const pattern of patterns.slice(0, 10)) {
-        lines.push(muted(`${pattern.name}`));
+        lines.push(muted(pattern.name));
         lines.push(`  Tools: ${info(pattern.tools.join(" -> "))}`);
         lines.push(`  Frequency: ${info(String(pattern.frequency))}`);
         lines.push(`  Sessions: ${info(String(pattern.sessions.length))}`);
