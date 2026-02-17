@@ -15,8 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-  IMAGE_NAME_LOWER: ${{ github.repository }}
+  IMAGE_NAME: pt-act/clawtopus-main
 
 jobs:
   # Build amd64 image
