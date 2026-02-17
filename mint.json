@@ -1,0 +1,26 @@
+{
+  "name": "Clawtopus",
+  "logo": "images/logo.png",
+  "favicon": "images/logo.png",
+  "colors": {
+    "primary": "#6366f1",
+    "light": "#818cf8",
+    "dark": "#4f46e5"
+  },
+  "topbarLinks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/pt-act/Clawtopus-main"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": ["docs/index", "docs/install"]
+    },
+    {
+      "group": "Concepts",
+      "pages": ["docs/concepts/memory", "docs/concepts/compaction"]
+    }
+  ]
+}
