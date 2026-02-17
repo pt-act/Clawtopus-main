@@ -1,19 +1,16 @@
 # 🐙 Clawtopus — Self-Evolving AI Assistant
 
 <p align="center">
-    <picture>
-        <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/clawtopus/clawtopus/main/docs/assets/clawtopus-logo-text-dark.png">
-        <img src="https://raw.githubusercontent.com/clawtopus/clawtopus/main/docs/assets/clawtopus-logo-text.png" alt="Clawtopus" width="400">
-    </picture>
+    <img src="images/logo.png" alt="Clawtopus" width="300">
 </p>
 
 <p align="center">
-  <strong>The eight-armed assistant with a memory that never forgets</strong>
+  <strong>The eight-armed assistant with a memory that never forgets</strong><br>
+  <a href="https://ra-d860e963.mintlify.app">📖 Documentation</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/clawtopus/clawtopus/actions/workflows/ci.yml?branch=main"><img src="https://img.shields.io/github/actions/workflow/status/clawtopus/clawtopus/ci.yml?branch=main&style=for-the-badge" alt="CI status"></a>
-  <a href="https://github.com/clawtopus/clawtopus/releases"><img src="https://img.shields.io/github/v/release/clawtopus/clawtopus?include_prereleases&style=for-the-badge" alt="GitHub release"></a>
+  <a href="https://www.npmjs.com/package/clawtopus"><img src="https://img.shields.io/npm/v/clawtopus?include_prereleases&style=for-the-badge" alt="NPM version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="MIT License"></a>
 </p>
 
