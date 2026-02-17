@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Eight arms. Infinite memory.</strong><br>
-  <a href="[Clawtopus]https://ra-d860e963.mintlify.app/docs)">📖 Documentation</a>
+  <a href="[Clawtopus](https://ra-d860e963.mintlify.app/docs)">📖 Documentation</a>
 </p>
 
 <p align="center">
