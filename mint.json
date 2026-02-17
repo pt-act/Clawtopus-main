@@ -1,7 +1,7 @@
 {
   "name": "Clawtopus",
-  "logo": "/logo.png",
-  "favicon": "/assets/favicon.png",
+  "logo": "/docs/logo.png",
+  "favicon": "/docs/assets/openclaw-logo-text.png",
   "colors": {
     "primary": "#6366f1",
     "light": "#818cf8",
@@ -15,7 +15,7 @@
   ],
   "topbarCta": {
     "name": "Download",
-    "url": "/install"
+    "url": "/docs/install"
   },
   "anchors": [],
   "navigation": [
