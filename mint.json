@@ -1,0 +1,38 @@
+{
+  "name": "Clawtopus",
+  "logo": "/logo.png",
+  "favicon": "/assets/favicon.png",
+  "colors": {
+    "primary": "#6366f1",
+    "light": "#818cf8",
+    "dark": "#4f46e5"
+  },
+  "topbarLinks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/pt-act/Clawtopus-main"
+    }
+  ],
+  "topbarCta": {
+    "name": "Download",
+    "url": "/install"
+  },
+  "anchors": [],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": ["index", "install"]
+    },
+    {
+      "group": "Concepts",
+      "pages": ["concepts/memory", "concepts/compaction"]
+    },
+    {
+      "group": "Reference",
+      "pages": ["pi", "logging"]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/clawtopus/clawtopus"
+  }
+}
