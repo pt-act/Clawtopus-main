@@ -19,6 +19,15 @@
       "pages": ["docs/index", "docs/install/index", "docs/start/openclaw"]
     },
     {
+      "group": "Code Voyager",
+      "pages": [
+        "docs/code-voyager/SUMMARY",
+        "docs/code-voyager/ARCHITECTURE",
+        "docs/code-voyager/EXTENSIONS",
+        "docs/code-voyager/PROVIDERS"
+      ]
+    },
+    {
       "group": "Concepts",
       "pages": [
         "docs/concepts/memory",
