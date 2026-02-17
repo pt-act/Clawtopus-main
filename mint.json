@@ -16,11 +16,37 @@
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["docs/index", "docs/install/index"]
+      "pages": ["docs/index", "docs/install/index", "docs/start/openclaw"]
     },
     {
       "group": "Concepts",
-      "pages": ["docs/concepts/memory", "docs/concepts/compaction"]
+      "pages": [
+        "docs/concepts/memory",
+        "docs/concepts/compaction",
+        "docs/concepts/session",
+        "docs/concepts/agent"
+      ]
+    },
+    {
+      "group": "CLI Commands",
+      "pages": ["docs/cli/send", "docs/cli/status", "docs/cli/sessions"]
+    },
+    {
+      "group": "Channels",
+      "pages": [
+        "docs/channels/whatsapp",
+        "docs/channels/telegram",
+        "docs/channels/discord",
+        "docs/channels/slack"
+      ]
+    },
+    {
+      "group": "Configuration",
+      "pages": ["docs/gateway/configuration-reference", "docs/gateway/configuration-examples"]
+    },
+    {
+      "group": "Reference",
+      "pages": ["docs/pi", "docs/logging", "docs/providers/openai"]
     }
   ]
 }
