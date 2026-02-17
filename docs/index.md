@@ -9,7 +9,7 @@ title: "Clawtopus"
 
 <p align="center">
     <img
-        src="/logo.png"
+        src="/images/logo.png"
         alt="Clawtopus"
         width="300"
     />
