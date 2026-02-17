@@ -58,6 +58,10 @@
     {
       "group": "Reference",
       "pages": ["docs/pi", "docs/logging", "docs/providers/openai"]
+    },
+    {
+      "group": "Resources",
+      "pages": ["docs/marketing/GTM_STRATEGY"]
     }
   ]
 }
