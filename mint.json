@@ -16,7 +16,7 @@
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["index", "install"]
+      "pages": ["index", "install/index"]
     },
     {
       "group": "Concepts",
