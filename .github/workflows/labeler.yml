@@ -20,7 +20,7 @@ permissions: {}
 
 jobs:
   label:
-    if: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.fork == false && secrets.GH_APP_PRIVATE_KEY != ''
+    if: github.event_name == 'pull_request_target'
     permissions:
       contents: read
       pull-requests: write
@@ -30,7 +30,7 @@ jobs:
         id: guard
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" == "pull_request_target" && "${{ github.event.pull_request.head.repo.fork }}" == "false" && -n "${{ secrets.GH_APP_PRIVATE_KEY }}" ]]; then
+          if [[ -n "${{ secrets.GH_APP_PRIVATE_KEY }}" && "${{ github.event.pull_request.head.repo.full_name }}" == "${{ github.repository }}" ]]; then
             echo "enabled=true" >> "$GITHUB_OUTPUT"
           else
             echo "enabled=false" >> "$GITHUB_OUTPUT"
@@ -212,7 +212,7 @@ jobs:
             }
 
   backfill-pr-labels:
-    if: github.event_name == 'workflow_dispatch' && secrets.GH_APP_PRIVATE_KEY != ''
+    if: github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
       pull-requests: write
@@ -222,7 +222,7 @@ jobs:
         id: guard
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" && -n "${{ secrets.GH_APP_PRIVATE_KEY }}" ]]; then
+          if [[ -n "${{ secrets.GH_APP_PRIVATE_KEY }}" ]]; then
             echo "enabled=true" >> "$GITHUB_OUTPUT"
           else
             echo "enabled=false" >> "$GITHUB_OUTPUT"
@@ -467,7 +467,7 @@ jobs:
             core.info(`Processed ${processed} pull requests.`);
 
   label-issues:
-    if: github.event_name == 'issues' && secrets.GH_APP_PRIVATE_KEY != ''
+    if: github.event_name == 'issues'
     permissions:
       issues: write
     runs-on: ubuntu-latest
@@ -476,7 +476,7 @@ jobs:
         id: guard
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" == "issues" && -n "${{ secrets.GH_APP_PRIVATE_KEY }}" ]]; then
+          if [[ -n "${{ secrets.GH_APP_PRIVATE_KEY }}" ]]; then
             echo "enabled=true" >> "$GITHUB_OUTPUT"
           else
             echo "enabled=false" >> "$GITHUB_OUTPUT"
