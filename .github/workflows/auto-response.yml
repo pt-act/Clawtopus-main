@@ -10,9 +10,8 @@ permissions: {}
 
 jobs:
   auto-response:
-    if: >-
-      secrets.GH_APP_PRIVATE_KEY != '' &&
-      (github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.fork == false)
+    # For pull_request_target, only run on same-repo PRs (avoid running with secrets on forks).
+    if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       issues: write
       pull-requests: write
