@@ -11,32 +11,68 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 HASH_FILE="$ROOT_DIR/src/canvas-host/a2ui/.bundle.hash"
 OUTPUT_FILE="$ROOT_DIR/src/canvas-host/a2ui/a2ui.bundle.js"
 A2UI_RENDERER_DIR="$ROOT_DIR/vendor/a2ui/renderers/lit"
-# CanvasA2UI is optional - only needed for macOS app
+# CanvasA2UI sources exist in this repo, but treat them as optional so
+# downstream consumers (and forks) can run without the full vendor tree.
 A2UI_APP_DIR="$ROOT_DIR/apps/shared/OpenClawKit/Tools/CanvasA2UI"
 
-# Docker builds exclude vendor/apps via .dockerignore.
+mkdir -p "$(dirname "$OUTPUT_FILE")"
+
+write_stub_bundle() {
+  cat >"$OUTPUT_FILE" <<'JS'
+// Auto-generated fallback bundle.
+//
+// Some environments (eg forks or minimal CI contexts) don't include the
+// upstream A2UI vendor sources. We still ship a tiny bundle so:
+// - dist builds succeed (assets can be copied)
+// - tests that mount /__openclaw__/a2ui can run
+//
+// Full A2UI functionality requires running the real bundler with the vendor
+// sources present.
+
+(() => {
+  const g = globalThis;
+  g.openclawA2UI = g.openclawA2UI ?? {};
+
+  if (typeof g.HTMLElement === "function" && !g.customElements?.get?.("openclaw-a2ui-host")) {
+    class OpenClawA2UIHost extends HTMLElement {
+      connectedCallback() {
+        if (!this.shadowRoot) {
+          this.attachShadow({ mode: "open" });
+        }
+        this.shadowRoot.innerHTML = `<style>:host{display:block;height:100%;}</style>`;
+      }
+    }
+
+    try {
+      g.customElements?.define?.("openclaw-a2ui-host", OpenClawA2UIHost);
+    } catch {
+      // ignore
+    }
+  }
+})();
+JS
+}
+
+# Docker builds and some forks exclude vendor/apps via .dockerignore.
 # In that environment we can keep a prebuilt bundle only if it exists.
-# A2UI renderer is required, but CanvasA2UI (macOS) is optional
-if [[ ! -d "$A2UI_RENDERER_DIR" ]]; then
+# If it doesn't, write a small stub bundle instead of failing CI.
+if [[ ! -d "$A2UI_RENDERER_DIR" || ! -d "$A2UI_APP_DIR" ]]; then
   if [[ -f "$OUTPUT_FILE" ]]; then
-    echo "A2UI sources missing; keeping prebuilt bundle."
+    echo "A2UI sources missing; keeping existing bundle at: $OUTPUT_FILE"
     exit 0
   fi
-  echo "A2UI sources missing and no prebuilt bundle found at: $OUTPUT_FILE" >&2
-  exit 1
+
+  echo "A2UI sources missing; writing stub bundle to: $OUTPUT_FILE"
+  write_stub_bundle
+  echo "stub" >"$HASH_FILE"
+  exit 0
 fi
 
-# Skip if CanvasA2UI is missing (optional for non-macOS builds)
-if [[ ! -d "$A2UI_APP_DIR" ]]; then
-  echo "CanvasA2UI (macOS) not found; building renderer only."
+INPUT_PATHS=("$ROOT_DIR/package.json")
+if [[ -f "$ROOT_DIR/pnpm-lock.yaml" ]]; then
+  INPUT_PATHS+=("$ROOT_DIR/pnpm-lock.yaml")
 fi
-
-INPUT_PATHS=(
-  "$ROOT_DIR/package.json"
-  "$ROOT_DIR/pnpm-lock.yaml"
-  "$A2UI_RENDERER_DIR"
-  "$A2UI_APP_DIR"
-)
+INPUT_PATHS+=("$A2UI_RENDERER_DIR" "$A2UI_APP_DIR")
 
 compute_hash() {
   ROOT_DIR="$ROOT_DIR" node --input-type=module - "${INPUT_PATHS[@]}" <<'NODE'
@@ -95,4 +131,4 @@ fi
 pnpm -s exec tsc -p "$A2UI_RENDERER_DIR/tsconfig.json"
 rolldown -c "$A2UI_APP_DIR/rolldown.config.mjs"
 
-echo "$current_hash" > "$HASH_FILE"
+echo "$current_hash" >"$HASH_FILE"
