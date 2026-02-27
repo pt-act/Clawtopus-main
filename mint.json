@@ -56,6 +56,10 @@
       "pages": ["docs/gateway/configuration-reference", "docs/gateway/configuration-examples"]
     },
     {
+      "group": "Integrations",
+      "pages": ["docs/integration/quantumreef-orchestrator"]
+    },
+    {
       "group": "Reference",
       "pages": ["docs/pi", "docs/logging", "docs/providers/openai"]
     },

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "clawtopus-browser": {
+      "command": "npx",
+      "args": ["clawtopus", "mcp-browser"],
+      "env": {
+        "MCP_AUTH_TOKEN": "your-secure-token-here",
+        "CLAWTOPUS_BROWSER_PROFILE": "default"
+      }
+    }
+  }
+}
