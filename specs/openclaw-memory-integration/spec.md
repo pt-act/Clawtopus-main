@@ -15,51 +15,51 @@ Add lifelong memory capabilities to OpenClaw by integrating Code-Voyager and Sim
 
 ### 1. Session Brain (Code-Voyager)
 
-| Requirement | Description |
-|-------------|-------------|
-| BR-1 | Store session state (goals, decisions, progress) to `.claude/voyager/brain.json` |
-| BR-2 | Load brain context on session start via pre-session hook |
-| BR-3 | Update brain on session end and before compaction |
-| BR-4 | Support `openclaw memory brain update` and `openclaw memory brain inject` |
-| BR-5 | Track: current goal, recent decisions, next steps, blocked items |
+| Requirement | Description                                                                      |
+| ----------- | -------------------------------------------------------------------------------- |
+| BR-1        | Store session state (goals, decisions, progress) to `.claude/voyager/brain.json` |
+| BR-2        | Load brain context on session start via pre-session hook                         |
+| BR-3        | Update brain on session end and before compaction                                |
+| BR-4        | Support `openclaw memory brain update` and `openclaw memory brain inject`        |
+| BR-5        | Track: current goal, recent decisions, next steps, blocked items                 |
 
 ### 2. Enhanced Compaction (SimpleMem)
 
-| Requirement | Description |
-|-------------|-------------|
-| CR-1 | Transform dialogue into atomic facts with absolute timestamps |
-| CR-2 | Create multi-view index: semantic (embeddings), lexical (BM25), symbolic (metadata) |
-| CR-3 | Store atomic facts in session alongside summaries |
-| CR-4 | Implement adaptive retrieval based on query complexity |
-| CR-5 | Maintain backward compatibility with existing compaction |
+| Requirement | Description                                                                         |
+| ----------- | ----------------------------------------------------------------------------------- |
+| CR-1        | Transform dialogue into atomic facts with absolute timestamps                       |
+| CR-2        | Create multi-view index: semantic (embeddings), lexical (BM25), symbolic (metadata) |
+| CR-3        | Store atomic facts in session alongside summaries                                   |
+| CR-4        | Implement adaptive retrieval based on query complexity                              |
+| CR-5        | Maintain backward compatibility with existing compaction                            |
 
 ### 3. Memory CLI Commands
 
-| Requirement | Description |
-|-------------|-------------|
-| MR-1 | `openclaw memory status` - Show memory health, session count, last update |
-| MR-2 | `openclaw memory recall <query>` - Semantic search over session history |
-| MR-3 | `openclaw memory export` - Export all memory to JSON |
-| MR-4 | `openclaw memory import` - Import memory snapshot |
-| MR-5 | Chat commands: `/memory status`, `/memory recall`, `/memory flush` |
+| Requirement | Description                                                               |
+| ----------- | ------------------------------------------------------------------------- |
+| MR-1        | `openclaw memory status` - Show memory health, session count, last update |
+| MR-2        | `openclaw memory recall <query>` - Semantic search over session history   |
+| MR-3        | `openclaw memory export` - Export all memory to JSON                      |
+| MR-4        | `openclaw memory import` - Import memory snapshot                         |
+| MR-5        | Chat commands: `/memory status`, `/memory recall`, `/memory flush`        |
 
 ### 4. Skill Intelligence
 
-| Requirement | Description |
-|-------------|-------------|
-| SR-1 | Detect recurring workflow patterns from tool usage |
-| SR-2 | Generate skill proposal from observed patterns |
-| SR-3 | Semantic search over skill library using embeddings |
-| SR-4 | Integrate with OpenClaw skills platform (`.openclaw/skills/`) |
+| Requirement | Description                                                   |
+| ----------- | ------------------------------------------------------------- |
+| SR-1        | Detect recurring workflow patterns from tool usage            |
+| SR-2        | Generate skill proposal from observed patterns                |
+| SR-3        | Semantic search over skill library using embeddings           |
+| SR-4        | Integrate with OpenClaw skills platform (`.openclaw/skills/`) |
 
 ### 5. Curriculum Planner
 
-| Requirement | Description |
-|-------------|-------------|
-| PR-1 | Generate repo onboarding roadmap from codebase analysis |
-| PR-2 | Create curriculum from session history and goals |
-| PR-3 | Integrate with wizard onboarding flow |
-| PR-4 | Output to `.openclaw/curriculum/` |
+| Requirement | Description                                             |
+| ----------- | ------------------------------------------------------- |
+| PR-1        | Generate repo onboarding roadmap from codebase analysis |
+| PR-2        | Create curriculum from session history and goals        |
+| PR-3        | Integrate with wizard onboarding flow                   |
+| PR-4        | Output to `.openclaw/curriculum/`                       |
 
 ## Visual Design
 
@@ -144,6 +144,7 @@ Storage:
 ## Data Models
 
 ### BrainEntry
+
 ```typescript
 interface BrainEntry {
   id: string;
@@ -156,35 +157,36 @@ interface BrainEntry {
 ```
 
 ### AtomicFact
+
 ```typescript
 interface AtomicFact {
   id: string;
-  timestamp: number;  // Absolute, not relative
+  timestamp: number; // Absolute, not relative
   subject: string;
   predicate: string;
   object: string;
-  context: string;  // Supporting detail
+  context: string; // Supporting detail
   sessionId: string;
-  importance: number;  // 0-1
+  importance: number; // 0-1
 }
 ```
 
 ## CLI Commands
 
-| Command | Description |
-|---------|-------------|
-| `openclaw memory status` | Show memory health |
-| `openclaw memory recall <query>` | Semantic search |
-| `openclaw memory export` | Export to file |
-| `openclaw memory import` | Import from file |
-| `openclaw memory brain update` | Force brain update |
-| `openclaw memory brain inject` | Show inject output |
-| `openclaw memory index rebuild` | Rebuild semantic index |
+| Command                          | Description            |
+| -------------------------------- | ---------------------- |
+| `openclaw memory status`         | Show memory health     |
+| `openclaw memory recall <query>` | Semantic search        |
+| `openclaw memory export`         | Export to file         |
+| `openclaw memory import`         | Import from file       |
+| `openclaw memory brain update`   | Force brain update     |
+| `openclaw memory brain inject`   | Show inject output     |
+| `openclaw memory index rebuild`  | Rebuild semantic index |
 
 ## Chat Commands
 
-| Command | Description |
-|---------|-------------|
-| `/memory status` | Show memory health |
-| `/memory recall <query>` | Search past sessions |
-| `/memory flush` | Clear memory (with confirmation) |
+| Command                  | Description                      |
+| ------------------------ | -------------------------------- |
+| `/memory status`         | Show memory health               |
+| `/memory recall <query>` | Search past sessions             |
+| `/memory flush`          | Clear memory (with confirmation) |

@@ -54,10 +54,10 @@ Group 5: QuantumReef Integration
 **Depends On**: None  
 **Acceptance Criteria**:
 
-- [ ] Directory structure matches spec SR-1
-- [ ] `MASTER_CONTEXT.md` template with platform vision
-- [ ] `pm-ledger/` subdirectory with templates
-- [ ] `specs/` directory ready for feature specs
+- [x] Directory structure matches spec SR-1
+- [x] `MASTER_CONTEXT.md` template with platform vision
+- [x] `pm-ledger/` subdirectory with templates
+- [x] `specs/` directory ready for feature specs
 
 **Files Created**:
 
@@ -67,10 +67,10 @@ Group 5: QuantumReef Integration
 
 **Tests** (4 tests):
 
-- [ ] Initialization creates all required files
-- [ ] Templates render with correct placeholders
-- [ ] Re-initialization is idempotent
-- [ ] Path resolution works cross-platform
+- [x] Initialization creates all required files
+- [x] Templates render with correct placeholders
+- [x] Re-initialization is idempotent
+- [x] Path resolution works cross-platform
 
 ---
 
@@ -416,12 +416,12 @@ Group 5: QuantumReef Integration
 **Depends On**: Task 3.1, Task 4.1  
 **Acceptance Criteria**:
 
-- [ ] Category `plan` added
-- [ ] Category `spec` added
-- [ ] Category `tasks` added
-- [ ] Category `audit` added
-- [ ] Category `pm-review` added
-- [ ] Priority routing configured
+- [x] Category `plan` added
+- [x] Category `spec` added
+- [x] Category `tasks` added
+- [x] Category `audit` added
+- [x] Category `pm-review` added
+- [x] Priority routing configured
 
 **Files Modified**:
 
@@ -442,11 +442,11 @@ Group 5: QuantumReef Integration
 **Depends On**: Task 5.1  
 **Acceptance Criteria**:
 
-- [ ] Enhanced `task.dispatch` payload supports specContext
-- [ ] Enhanced `task.dispatch` payload supports pmContext
-- [ ] New `task.progress` checkpoints for spec phases
-- [ ] New `pm.verdict` event type
-- [ ] Backward compatibility maintained
+- [x] Enhanced `task.dispatch` payload supports specContext
+- [x] Enhanced `task.dispatch` payload supports pmContext
+- [x] New `task.progress` checkpoints for spec phases
+- [x] New `pm.verdict` event type
+- [x] Backward compatibility maintained
 
 **Files Created**:
 
@@ -467,11 +467,11 @@ Group 5: QuantumReef Integration
 **Depends On**: Task 5.2  
 **Acceptance Criteria**:
 
-- [ ] Phase checkpoints emit progress events
-- [ ] Gate evaluations emit progress events
-- [ ] Evidence collection emits progress events
-- [ ] Throttled to 500ms (ProgressBridge)
-- [ ] Chunked to 300 chars for messaging
+- [x] Phase checkpoints emit progress events
+- [x] Gate evaluations emit progress events
+- [x] Evidence collection emits progress events
+- [x] Throttled to 500ms (ProgressBridge)
+- [x] Chunked to 300 chars for messaging
 
 **Files Modified**:
 
@@ -491,10 +491,10 @@ Group 5: QuantumReef Integration
 **Depends On**: Task 5.3  
 **Acceptance Criteria**:
 
-- [ ] Full spec workflow via QuantumReef works
-- [ ] Full PM audit via QuantumReef works
-- [ ] Progress streams to phone correctly
-- [ ] Verdict received and stored
+- [x] Full spec workflow via QuantumReef works
+- [x] Full PM audit via QuantumReef works
+- [x] Progress streams to phone correctly
+- [x] Verdict received and stored
 
 **Files Created**:
 
@@ -558,15 +558,15 @@ With buffer: 10 iterations
 
 ## Acceptance Criteria (Feature Complete)
 
-- [ ] Internal memory_bank initializes on first dev session
-- [ ] External memory_bank auto-creates for user projects
-- [ ] Spec-architect 3-phase workflow works in both contexts
-- [ ] PM-auditor 7-gate evaluation works with evidence
-- [ ] QuantumReef dispatches spec/pm tasks correctly
-- [ ] Progress streams to mobile via WebSocket
-- [ ] All tests pass
-- [ ] Documentation updated
-- [ ] Consciousness alignment ≥ 7.0/10
+- [x] Internal memory_bank initializes on first dev session
+- [x] External memory_bank auto-creates for user projects
+- [x] Spec-architect 3-phase workflow works in both contexts
+- [x] PM-auditor 7-gate evaluation works with evidence
+- [x] QuantumReef dispatches spec/pm tasks correctly
+- [x] Progress streams to mobile via WebSocket
+- [x] All tests pass
+- [x] Documentation updated
+- [x] Consciousness alignment ≥ 7.0/10
 
 ---
 

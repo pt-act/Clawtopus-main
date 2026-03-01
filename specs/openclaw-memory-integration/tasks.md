@@ -20,6 +20,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 ### Phase 1: Session Brain + Integration Foundation
 
 #### Iteration 1: Session Brain Data Model + Storage
+
 **Files**: `src/agents/session-brain.ts`, extend `src/config/types.agent-defaults.ts`
 
 - [ ] Define `BrainEntry` interface (goals, decisions, progress, blocked)
@@ -28,6 +29,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 - [ ] **Tests**: 3 tests for brain store
 
 #### Iteration 2: Brain Update Logic
+
 **Files**: `src/agents/session-brain.ts`, `src/sessions/transcript-events.ts`
 
 - [ ] Implement `updateBrainFromSession()` - extract goals/decisions from transcript
@@ -36,6 +38,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 - [ ] **Tests**: 3 tests for brain update
 
 #### Iteration 3: Brain Injection + CLI
+
 **Files**: `src/agents/session-brain.ts`, extend `src/cli/memory-cli.ts`
 
 - [ ] Implement `injectBrainContext()` - format for system prompt
@@ -49,6 +52,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 ### Phase 2: Enhanced Compaction + Atomic Facts
 
 #### Iteration 4: Atomic Fact Extraction
+
 **Files**: `src/agents/atomic-facts.ts`, extend `src/agents/compaction.ts`
 
 - [ ] Implement `extractAtomicFacts()` - LLM-based fact extraction
@@ -58,6 +62,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 - [ ] **Tests**: 4 tests
 
 #### Iteration 5: Multi-View Index Integration
+
 **Files**: `src/agents/atomic-facts.ts`, extend existing memory index
 
 - [ ] Store atomic facts in existing SQLite (new table)
@@ -66,6 +71,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 - [ ] **Tests**: 3 tests
 
 #### Iteration 6: Adaptive Retrieval for Facts
+
 **Files**: `src/agents/memory-recall.ts`, extend `src/agents/memory-search.ts`
 
 - [ ] Implement query complexity estimation
@@ -74,6 +80,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 - [ ] **Tests**: 3 tests
 
 #### Iteration 7: Memory Recall CLI Enhancement
+
 **Files**: extend `src/cli/memory-cli.ts`
 
 - [ ] Enhance `openclaw memory search` to include brain + atomic facts
@@ -85,6 +92,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 ### Phase 3: Skill Intelligence
 
 #### Iteration 8: Workflow Pattern Detection
+
 **Files**: `src/agents/skill-factory/detector.ts`, `src/agents/skill-factory/store.ts`
 
 - [ ] Implement `detectPatterns()` - analyze tool usage sequences
@@ -93,6 +101,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 - [ ] **Tests**: 3 tests
 
 #### Iteration 9: Skill Proposal + Scaffolding
+
 **Files**: `src/agents/skill-factory/proposer.ts`, `src/agents/skill-factory/scaffolder.ts`
 
 - [ ] Implement `generateSkillProposal()` - LLM-based
@@ -102,10 +111,11 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 - [ ] **Tests**: 3 tests
 
 #### Iteration 10: Semantic Skill Retrieval
+
 **Files**: `src/agents/skill-factory/retrieval.ts`, extend `src/cli/memory-cli.ts`
 
 - [ ] Build skill embedding index (reuse existing)
-- [ ] Implement `searchSkills(query)` 
+- [ ] Implement `searchSkills(query)`
 - [ ] Add CLI: `openclaw skill search <query>`
 - [ ] **Tests**: 3 tests
 
@@ -114,6 +124,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 ### Phase 4: Curriculum Planner + Polish
 
 #### Iteration 11: Curriculum Generation
+
 **Files**: `src/agents/curriculum/planner.ts`, `src/agents/curriculum/renderer.ts`
 
 - [ ] Implement `generateCurriculum()` - from codebase analysis
@@ -122,6 +133,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 - [ ] **Tests**: 3 tests
 
 #### Iteration 12: Wizard Integration
+
 **Files**: extend `src/commands/onboard-*.ts`
 
 - [ ] Integrate curriculum with wizard onboarding
@@ -129,6 +141,7 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 - [ ] **Tests**: 2 tests
 
 #### Iteration 13: Documentation + Migration
+
 **Files**: docs updates
 
 - [ ] Update `docs/concepts/memory.md`
@@ -140,42 +153,46 @@ Phase 1 (3 iter) ──► Phase 2 (4 iter) ──► Phase 3 (3 iter) ──►
 
 ## Iteration Summary
 
-| Phase | Iterations | Focus | Tests |
-|-------|------------|-------|-------|
-| 1 | 1-3 | Session Brain + CLI | 9 |
-| 2 | 4-7 | Atomic Facts + Recall | 12 |
-| 3 | 8-10 | Skill Intelligence | 9 |
-| 4 | 11-13 | Curriculum + Integration | 7 |
-| **Total** | **13** | | **37** |
+| Phase     | Iterations | Focus                    | Tests  |
+| --------- | ---------- | ------------------------ | ------ |
+| 1         | 1-3        | Session Brain + CLI      | 9      |
+| 2         | 4-7        | Atomic Facts + Recall    | 12     |
+| 3         | 8-10       | Skill Intelligence       | 9      |
+| 4         | 11-13      | Curriculum + Integration | 7      |
+| **Total** | **13**     |                          | **37** |
 
 ## Integration Points (Reuse Existing)
 
-| Existing System | Integration Point |
-|---------------|-------------------|
-| `src/cli/memory-cli.ts` | Add brain subcommands |
-| `src/agents/memory-search.ts` | Extend with atomic facts |
-| `src/config/types.agent-defaults.ts` | Add sessionBrain config |
-| `src/sessions/transcript-events.ts` | Hook brain update |
-| SQLite + embeddings | Store atomic facts |
+| Existing System                      | Integration Point        |
+| ------------------------------------ | ------------------------ |
+| `src/cli/memory-cli.ts`              | Add brain subcommands    |
+| `src/agents/memory-search.ts`        | Extend with atomic facts |
+| `src/config/types.agent-defaults.ts` | Add sessionBrain config  |
+| `src/sessions/transcript-events.ts`  | Hook brain update        |
+| SQLite + embeddings                  | Store atomic facts       |
 
 ## Acceptance Criteria
 
 ### Phase 1
+
 - [ ] `openclaw memory brain status` shows entries
 - [ ] Brain persists across restarts
 - [ ] Session resume injects brain context
 
 ### Phase 2
+
 - [ ] Compaction creates atomic facts
 - [ ] `openclaw memory search` includes facts
 - [ ] Adaptive retrieval works
 
 ### Phase 3
+
 - [ ] Workflow patterns detected
 - [ ] Skill proposals generated
 - [ ] Semantic skill search works
 
 ### Phase 4
+
 - [ ] Curriculum generated
 - [ ] Wizard integration complete
 - [ ] Documentation updated

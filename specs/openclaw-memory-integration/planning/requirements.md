@@ -12,6 +12,7 @@ Integrate Code-Voyager and SimpleMem memory systems into OpenClaw to enhance ses
 ## Problem Statement
 
 OpenClaw currently lacks:
+
 1. **Session continuity**: Users lose context between sessions; no "what were we working on?" capability
 2. **Smart memory retrieval**: Compacted sessions lose discoverability; can't find relevant past context
 3. **Skill automation**: No way to auto-generate skills from observed workflows
@@ -20,29 +21,34 @@ OpenClaw currently lacks:
 ## Core Requirements
 
 ### 1. Session Brain (Priority: High)
+
 - Track goals, decisions, and progress across sessions
 - Persist in workspace (`~/.openclaw/workspace/.claude/voyager/`)
 - Inject context on session start via hooks
 - CLI: `openclaw memory brain update`, `openclaw memory brain inject`
 
 ### 2. Enhanced Compaction (Priority: High)
+
 - Replace simple summarization with atomic fact extraction
 - Add multi-view indexing (semantic + lexical + symbolic)
 - Store in session as structured memory entries
 - Enable retrieval from compacted sessions
 
 ### 3. Memory CLI Commands (Priority: High)
+
 - `openclaw memory status` - Show memory health
 - `openclaw memory recall <query>` - Query past sessions
 - `openclaw memory export` - Export memory for backup
 - `openclaw memory import` - Import memory snapshot
 
 ### 4. Skill Intelligence (Priority: Medium)
+
 - Skill Factory: Auto-generate skills from workflows
 - Skill Retrieval: Semantic search over skill library
 - Integration with existing OpenClaw skills platform
 
 ### 5. Curriculum Planner (Priority: Low)
+
 - Generate onboarding roadmaps for new codebases
 - Integrate with wizard onboarding flow
 
@@ -79,13 +85,13 @@ OpenClaw currently lacks:
 
 ## Dependencies Analysis
 
-| Component | Depends On | Blocks |
-|-----------|-----------|--------|
-| Session Brain | Config, Session system | Memory CLI |
-| Enhanced Compaction | Existing compaction | Memory CLI |
-| Memory CLI | Session Brain, Compaction | - |
-| Skill Intelligence | Skills platform | - |
-| Curriculum Planner | Session Brain | - |
+| Component           | Depends On                | Blocks     |
+| ------------------- | ------------------------- | ---------- |
+| Session Brain       | Config, Session system    | Memory CLI |
+| Enhanced Compaction | Existing compaction       | Memory CLI |
+| Memory CLI          | Session Brain, Compaction | -          |
+| Skill Intelligence  | Skills platform           | -          |
+| Curriculum Planner  | Session Brain             | -          |
 
 ## Implementation Approach
 

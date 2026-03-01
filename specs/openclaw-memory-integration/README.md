@@ -3,6 +3,7 @@
 **Integration of Code-Voyager and SimpleMem into OpenClaw**
 
 This spec document outlines the integration of two powerful memory systems into OpenClaw:
+
 - **Code-Voyager**: Session Brain, Curriculum Planner, Skill Factory, Skill Retrieval
 - **SimpleMem**: Semantic compression, multi-view indexing, adaptive retrieval
 
@@ -21,6 +22,7 @@ This spec document outlines the integration of two powerful memory systems into 
 ## Key Insight: Extend, Don't Replace
 
 OpenClaw already has extensive memory infrastructure:
+
 - ✅ Vector search via embeddings (`src/agents/memory-search.ts`)
 - ✅ Full CLI (`openclaw memory status/index/search`)
 - ✅ SQLite storage with vector index
@@ -30,13 +32,13 @@ OpenClaw already has extensive memory infrastructure:
 
 ## Key Features
 
-| Feature | Extends | Description |
-|---------|---------|-------------|
-| Session Brain | New | Persistent goals/decisions across sessions |
-| Atomic Facts | Existing memory | Structured facts instead of flat summaries |
-| Semantic Recall | Existing search | Natural language search over history |
-| Skill Factory | Existing skills | Auto-generate skills from workflows |
-| Curriculum | New | Generate onboarding roadmaps |
+| Feature         | Extends         | Description                                |
+| --------------- | --------------- | ------------------------------------------ |
+| Session Brain   | New             | Persistent goals/decisions across sessions |
+| Atomic Facts    | Existing memory | Structured facts instead of flat summaries |
+| Semantic Recall | Existing search | Natural language search over history       |
+| Skill Factory   | Existing skills | Auto-generate skills from workflows        |
+| Curriculum      | New             | Generate onboarding roadmaps               |
 
 ## Implementation Strategy
 

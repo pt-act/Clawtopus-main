@@ -44,6 +44,10 @@ Clawtopus is a **self-evolving AI assistant** forked from OpenClaw, designed wit
 - **Atomic Facts**: Granular knowledge storage and retrieval
 - **Skill Factory**: Auto-generates skills from usage patterns
 - **Curriculum Planner**: Learns and adapts to your workflow
+- **Dual-Memory Architecture**: Separate platform and project contexts
+- **Spec-Architect**: 3-phase specification workflow (Shape → Write → Tasks)
+- **PM-Auditor**: 7 quality gates with evidence-based validation
+- **Multi-Agent Orchestration**: Coordinate AI specialists across domains
 - **Self-evolving**: Improves itself based on your interactions
 
 ## Key capabilities
@@ -150,6 +154,40 @@ Example:
   </Card>
   <Card title="Help" href="/help" icon="life-buoy">
     Troubleshooting and common issues.
+  </Card>
+</Columns>
+
+## Advanced Features
+
+### Multi-Agent Orchestration
+
+Clawtopus coordinates teams of AI specialists:
+
+<Columns>
+  <Card title="Spec-Architect" href="/features/spec-architect" icon="drafting-compass">
+    3-phase specification workflow: Shape → Write → Tasks
+  </Card>
+  <Card title="PM-Auditor" href="/features/pm-auditor" icon="shield-check">
+    7 quality gates with evidence-based validation
+  </Card>
+  <Card title="QuantumReef Integration" href="/features/quantumreef-integration" icon="workflow">
+    Dispatch tasks to polymorphic execution playground
+  </Card>
+</Columns>
+
+### Memory & Context
+
+Sophisticated memory management systems:
+
+<Columns>
+  <Card title="Dual-Memory Architecture" href="/features/dual-memory-architecture" icon="database">
+    Separate platform and project memory contexts
+  </Card>
+  <Card title="Context Compaction" href="/features/context-compaction" icon="layers">
+    Smart token optimization with layered strategies
+  </Card>
+  <Card title="Browser Vision MCP" href="/features/browser-vision-mcp" icon="eye">
+    Browser automation via MCP protocol
   </Card>
 </Columns>
 
