@@ -276,19 +276,25 @@ async function installPluginFromPackageDir(params: {
 
   const deps = manifest.dependencies ?? {};
   const hasDeps = Object.keys(deps).length > 0;
-  if (hasDeps) {
-    logger.info?.("Installing plugin dependencies…");
-    const npmRes = await runCommandWithTimeout(
-      ["npm", "install", "--omit=dev", "--silent", "--ignore-scripts"],
-      {
-        timeoutMs: Math.max(timeoutMs, 300_000),
-        cwd: targetDir,
-      },
-    );
-    if (npmRes.code !== 0) {
-      if (backupDir) {
-        await fs.rm(targetDir, { recursive: true, force: true }).catch(() => undefined);
-        await fs.rename(backupDir, targetDir).catch(() => undefined);
+  const installRes = await installPackageDir({
+    sourceDir: params.packageDir,
+    targetDir,
+    mode,
+    timeoutMs,
+    logger,
+    copyErrorPrefix: "failed to copy plugin",
+    hasDeps,
+    depsLogMessage: "Installing plugin dependencies…",
+    afterCopy: async (installedDir) => {
+      for (const entry of extensions) {
+        const resolvedEntry = path.resolve(installedDir, entry);
+        if (!isPathInside(installedDir, resolvedEntry)) {
+          logger.warn?.(`extension entry escapes plugin directory: ${entry}`);
+          continue;
+        }
+        if (!(await fileExists(resolvedEntry))) {
+          logger.warn?.(`extension entry not found: ${entry}`);
+        }
       }
       return {
         ok: false,

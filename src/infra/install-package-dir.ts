@@ -74,46 +74,18 @@ function isRelativePathInsideBase(relativePath: string): boolean {
   );
 }
 
-function isInstallBaseChangedError(error: unknown): boolean {
-  return error instanceof Error && error.message === INSTALL_BASE_CHANGED_ERROR_MESSAGE;
-}
-
 async function assertInstallBaseStable(params: {
   installBaseDir: string;
   expectedRealPath: string;
 }): Promise<void> {
   const baseLstat = await fs.lstat(params.installBaseDir);
   if (!baseLstat.isDirectory() || baseLstat.isSymbolicLink()) {
-    throw new Error(INSTALL_BASE_CHANGED_ERROR_MESSAGE);
+    throw new Error("install base directory changed during install");
   }
   const currentRealPath = await fs.realpath(params.installBaseDir);
   if (currentRealPath !== params.expectedRealPath) {
-    throw new Error(INSTALL_BASE_CHANGED_ERROR_MESSAGE);
+    throw new Error("install base directory changed during install");
   }
-}
-
-async function cleanupInstallTempDir(dirPath: string | null): Promise<void> {
-  if (!dirPath) {
-    return;
-  }
-  await fs.rm(dirPath, { recursive: true, force: true }).catch(() => undefined);
-}
-
-async function resolveInstallPublishTarget(params: {
-  installBaseDir: string;
-  targetDir: string;
-}): Promise<{ installBaseRealPath: string; canonicalTargetDir: string }> {
-  const installBaseResolved = path.resolve(params.installBaseDir);
-  const targetResolved = path.resolve(params.targetDir);
-  const targetRelativePath = path.relative(installBaseResolved, targetResolved);
-  if (!isRelativePathInsideBase(targetRelativePath)) {
-    throw new Error("invalid install target path");
-  }
-  const installBaseRealPath = await fs.realpath(params.installBaseDir);
-  return {
-    installBaseRealPath,
-    canonicalTargetDir: path.join(installBaseRealPath, targetRelativePath),
-  };
 }
 
 export async function installPackageDir(params: {
@@ -134,29 +106,22 @@ export async function installPackageDir(params: {
     installBaseDir,
     candidatePaths: [params.targetDir],
   });
-  let installBaseRealPath: string;
-  let canonicalTargetDir: string;
-  try {
-    ({ installBaseRealPath, canonicalTargetDir } = await resolveInstallPublishTarget({
-      installBaseDir,
-      targetDir: params.targetDir,
-    }));
-  } catch (err) {
-    return { ok: false, error: `${params.copyErrorPrefix}: ${String(err)}` };
+  const installBaseResolved = path.resolve(installBaseDir);
+  const targetResolved = path.resolve(params.targetDir);
+  const targetRelativePath = path.relative(installBaseResolved, targetResolved);
+  if (!isRelativePathInsideBase(targetRelativePath)) {
+    return { ok: false, error: `${params.copyErrorPrefix}: Error: invalid install target path` };
   }
+  const installBaseRealPath = await fs.realpath(installBaseDir);
+  const canonicalTargetDir = path.join(installBaseRealPath, targetRelativePath);
 
   let stageDir: string | null = null;
   let backupDir: string | null = null;
-  const fail = async (error: string, cause?: unknown) => {
-    const installBaseChanged = isInstallBaseChangedError(cause);
-    if (installBaseChanged) {
-      params.logger?.warn?.(INSTALL_BASE_CHANGED_ABORT_WARNING);
-    } else {
-      await restoreBackup();
-      if (stageDir) {
-        await cleanupInstallTempDir(stageDir);
-        stageDir = null;
-      }
+  const fail = async (error: string) => {
+    await restoreBackup();
+    if (stageDir) {
+      await fs.rm(stageDir, { recursive: true, force: true }).catch(() => undefined);
+      stageDir = null;
     }
     return { ok: false as const, error };
   };
@@ -176,13 +141,13 @@ export async function installPackageDir(params: {
     stageDir = await fs.mkdtemp(path.join(installBaseRealPath, ".openclaw-install-stage-"));
     await fs.cp(params.sourceDir, stageDir, { recursive: true });
   } catch (err) {
-    return await fail(`${params.copyErrorPrefix}: ${String(err)}`, err);
+    return await fail(`${params.copyErrorPrefix}: ${String(err)}`);
   }
 
   try {
     await params.afterCopy?.(stageDir);
   } catch (err) {
-    return await fail(`post-copy validation failed: ${String(err)}`, err);
+    return await fail(`post-copy validation failed: ${String(err)}`);
   }
 
   if (params.hasDeps) {
@@ -215,7 +180,7 @@ export async function installPackageDir(params: {
       });
       await fs.rename(canonicalTargetDir, backupDir);
     } catch (err) {
-      return await fail(`${params.copyErrorPrefix}: ${String(err)}`, err);
+      return await fail(`${params.copyErrorPrefix}: ${String(err)}`);
     }
   }
 
@@ -227,27 +192,14 @@ export async function installPackageDir(params: {
     await fs.rename(stageDir, canonicalTargetDir);
     stageDir = null;
   } catch (err) {
-    return await fail(`${params.copyErrorPrefix}: ${String(err)}`, err);
+    return await fail(`${params.copyErrorPrefix}: ${String(err)}`);
   }
 
-  if (backupDir) {
-    try {
-      await assertInstallBaseStable({
-        installBaseDir,
-        expectedRealPath: installBaseRealPath,
-      });
-    } catch (err) {
-      if (isInstallBaseChangedError(err)) {
-        params.logger?.warn?.(INSTALL_BASE_CHANGED_BACKUP_WARNING);
-      }
-      backupDir = null;
-    }
-  }
   if (backupDir) {
     await fs.rm(backupDir, { recursive: true, force: true }).catch(() => undefined);
   }
   if (stageDir) {
-    await cleanupInstallTempDir(stageDir);
+    await fs.rm(stageDir, { recursive: true, force: true }).catch(() => undefined);
   }
 
   return { ok: true };
