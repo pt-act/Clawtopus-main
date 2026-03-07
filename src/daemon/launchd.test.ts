@@ -145,7 +145,104 @@ describe("launchd install", () => {
     const originalPath = process.env.PATH;
     const originalLogPath = process.env.OPENCLAW_TEST_LAUNCHCTL_LOG;
 
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-launchctl-test-"));
+    const domain = typeof process.getuid === "function" ? `gui/${process.getuid()}` : "gui/501";
+    const label = "ai.openclaw.gateway";
+    const plistPath = resolveLaunchAgentPlistPath(env);
+    const serviceId = `${domain}/${label}`;
+
+    const enableIndex = state.launchctlCalls.findIndex(
+      (c) => c[0] === "enable" && c[1] === serviceId,
+    );
+    const bootstrapIndex = state.launchctlCalls.findIndex(
+      (c) => c[0] === "bootstrap" && c[1] === domain && c[2] === plistPath,
+    );
+    expect(enableIndex).toBeGreaterThanOrEqual(0);
+    expect(bootstrapIndex).toBeGreaterThanOrEqual(0);
+    expect(enableIndex).toBeLessThan(bootstrapIndex);
+  });
+
+  it("writes TMPDIR to LaunchAgent environment when provided", async () => {
+    const env = createDefaultLaunchdEnv();
+    const tmpDir = "/var/folders/xy/abc123/T/";
+    await installLaunchAgent({
+      env,
+      stdout: new PassThrough(),
+      programArguments: defaultProgramArguments,
+      environment: { TMPDIR: tmpDir },
+    });
+
+    const plistPath = resolveLaunchAgentPlistPath(env);
+    const plist = state.files.get(plistPath) ?? "";
+    expect(plist).toContain("<key>EnvironmentVariables</key>");
+    expect(plist).toContain("<key>TMPDIR</key>");
+    expect(plist).toContain(`<string>${tmpDir}</string>`);
+  });
+
+  it("writes KeepAlive=true policy with restrictive umask", async () => {
+    const env = createDefaultLaunchdEnv();
+    await installLaunchAgent({
+      env,
+      stdout: new PassThrough(),
+      programArguments: defaultProgramArguments,
+    });
+
+    const plistPath = resolveLaunchAgentPlistPath(env);
+    const plist = state.files.get(plistPath) ?? "";
+    expect(plist).toContain("<key>KeepAlive</key>");
+    expect(plist).toContain("<true/>");
+    expect(plist).not.toContain("<key>SuccessfulExit</key>");
+    expect(plist).toContain("<key>Umask</key>");
+    expect(plist).toContain(`<integer>${LAUNCH_AGENT_UMASK_DECIMAL}</integer>`);
+    expect(plist).toContain("<key>ThrottleInterval</key>");
+    expect(plist).toContain(`<integer>${LAUNCH_AGENT_THROTTLE_INTERVAL_SECONDS}</integer>`);
+  });
+
+  it("restarts LaunchAgent with bootout-enable-bootstrap-kickstart order", async () => {
+    const env = createDefaultLaunchdEnv();
+    await restartLaunchAgent({
+      env,
+      stdout: new PassThrough(),
+    });
+
+    const domain = typeof process.getuid === "function" ? `gui/${process.getuid()}` : "gui/501";
+    const label = "ai.openclaw.gateway";
+    const plistPath = resolveLaunchAgentPlistPath(env);
+    const serviceId = `${domain}/${label}`;
+    const bootoutIndex = state.launchctlCalls.findIndex(
+      (c) => c[0] === "bootout" && c[1] === serviceId,
+    );
+    const enableIndex = state.launchctlCalls.findIndex(
+      (c) => c[0] === "enable" && c[1] === serviceId,
+    );
+    const bootstrapIndex = state.launchctlCalls.findIndex(
+      (c) => c[0] === "bootstrap" && c[1] === domain && c[2] === plistPath,
+    );
+    const kickstartIndex = state.launchctlCalls.findIndex(
+      (c) => c[0] === "kickstart" && c[1] === "-k" && c[2] === serviceId,
+    );
+
+    expect(bootoutIndex).toBeGreaterThanOrEqual(0);
+    expect(enableIndex).toBeGreaterThanOrEqual(0);
+    expect(bootstrapIndex).toBeGreaterThanOrEqual(0);
+    expect(kickstartIndex).toBeGreaterThanOrEqual(0);
+    expect(bootoutIndex).toBeLessThan(enableIndex);
+    expect(enableIndex).toBeLessThan(bootstrapIndex);
+    expect(bootstrapIndex).toBeLessThan(kickstartIndex);
+  });
+
+  it("waits for previous launchd pid to exit before bootstrapping", async () => {
+    const env = createDefaultLaunchdEnv();
+    state.printOutput = ["state = running", "pid = 4242"].join("\n");
+    const killSpy = vi.spyOn(process, "kill");
+    killSpy
+      .mockImplementationOnce(() => true)
+      .mockImplementationOnce(() => {
+        const err = new Error("no such process") as NodeJS.ErrnoException;
+        err.code = "ESRCH";
+        throw err;
+      });
+
+    vi.useFakeTimers();
     try {
       const binDir = path.join(tmpDir, "bin");
       const homeDir = path.join(tmpDir, "home");
