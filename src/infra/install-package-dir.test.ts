@@ -18,20 +18,6 @@ function normalizeDarwinTmpPath(filePath: string): string {
     : filePath;
 }
 
-function normalizeComparablePath(filePath: string): string {
-  const resolved = normalizeDarwinTmpPath(path.resolve(filePath));
-  const parent = normalizeDarwinTmpPath(path.dirname(resolved));
-  let comparableParent = parent;
-  try {
-    comparableParent = normalizeDarwinTmpPath(fsSync.realpathSync.native(parent));
-  } catch {
-    comparableParent = parent;
-  }
-  const basename =
-    process.platform === "win32" ? path.basename(resolved).toLowerCase() : path.basename(resolved);
-  return path.join(comparableParent, basename);
-}
-
 async function rebindInstallBasePath(params: {
   installBaseDir: string;
   preservedDir: string;
@@ -52,13 +38,13 @@ async function withInstallBaseReboundOnRealpathCall<T>(params: {
   rebindAtCall: number;
   run: () => Promise<T>;
 }): Promise<T> {
-  const installBasePath = normalizeComparablePath(params.installBaseDir);
+  const installBasePath = normalizeDarwinTmpPath(path.resolve(params.installBaseDir));
   const realRealpath = fs.realpath.bind(fs);
   let installBaseRealpathCalls = 0;
   const realpathSpy = vi
     .spyOn(fs, "realpath")
     .mockImplementation(async (...args: Parameters<typeof fs.realpath>) => {
-      const filePath = normalizeComparablePath(String(args[0]));
+      const filePath = normalizeDarwinTmpPath(path.resolve(String(args[0])));
       if (filePath === installBasePath) {
         installBaseRealpathCalls += 1;
         if (installBaseRealpathCalls === params.rebindAtCall) {
