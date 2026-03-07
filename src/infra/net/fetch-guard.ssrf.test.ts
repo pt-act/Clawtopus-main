@@ -60,4 +60,82 @@ describe("fetchWithSsrFGuard hardening", () => {
     expect(fetchImpl).toHaveBeenCalledTimes(1);
     await result.release();
   });
+
+  it("strips sensitive headers when redirect crosses origins", async () => {
+    const lookupFn = createPublicLookup();
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(redirectResponse("https://cdn.example.com/asset"))
+      .mockResolvedValueOnce(okResponse());
+
+    const result = await fetchWithSsrFGuard({
+      url: "https://api.example.com/start",
+      fetchImpl,
+      lookupFn,
+      init: {
+        headers: {
+          Authorization: "Bearer secret",
+          "Proxy-Authorization": "Basic c2VjcmV0",
+          Cookie: "session=abc",
+          Cookie2: "legacy=1",
+          "X-Api-Key": "custom-secret",
+          "Private-Token": "private-secret",
+          "X-Trace": "1",
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "User-Agent": "OpenClaw-Test/1.0",
+        },
+      },
+    });
+
+    const headers = getSecondRequestHeaders(fetchImpl);
+    expect(headers.get("authorization")).toBeNull();
+    expect(headers.get("proxy-authorization")).toBeNull();
+    expect(headers.get("cookie")).toBeNull();
+    expect(headers.get("cookie2")).toBeNull();
+    expect(headers.get("x-api-key")).toBeNull();
+    expect(headers.get("private-token")).toBeNull();
+    expect(headers.get("x-trace")).toBeNull();
+    expect(headers.get("accept")).toBe("application/json");
+    expect(headers.get("content-type")).toBe("application/json");
+    expect(headers.get("user-agent")).toBe("OpenClaw-Test/1.0");
+    await result.release();
+  });
+
+  it("keeps headers when redirect stays on same origin", async () => {
+    const lookupFn = createPublicLookup();
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(redirectResponse("/next"))
+      .mockResolvedValueOnce(okResponse());
+
+    const result = await fetchWithSsrFGuard({
+      url: "https://api.example.com/start",
+      fetchImpl,
+      lookupFn,
+      init: {
+        headers: {
+          Authorization: "Bearer secret",
+        },
+      },
+    });
+
+    const headers = getSecondRequestHeaders(fetchImpl);
+    expect(headers.get("authorization")).toBe("Bearer secret");
+    await result.release();
+  });
+
+  it("ignores env proxy by default to preserve DNS-pinned destination binding", async () => {
+    await runProxyModeDispatcherTest({
+      mode: GUARDED_FETCH_MODE.STRICT,
+      expectEnvProxy: false,
+    });
+  });
+
+  it("uses env proxy only when dangerous proxy bypass is explicitly enabled", async () => {
+    await runProxyModeDispatcherTest({
+      mode: GUARDED_FETCH_MODE.TRUSTED_ENV_PROXY,
+      expectEnvProxy: true,
+    });
+  });
 });
