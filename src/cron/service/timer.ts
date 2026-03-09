@@ -1,3 +1,4 @@
+import type { CronConfig, CronRetryOn } from "../../config/types.cron.js";
 import type { HeartbeatRunResult } from "../../infra/heartbeat-wake.js";
 import type { CronJob } from "../types.js";
 import type { CronEvent, CronServiceState } from "./state.js";
@@ -483,17 +484,8 @@ async function executeJobCore(
     message: job.payload.message,
   });
 
-  // Post a short summary back to the main session.
-  const summaryText = res.summary?.trim();
-  const deliveryPlan = resolveCronDeliveryPlan(job);
-  if (summaryText && deliveryPlan.requested) {
-    const prefix = "Cron";
-    const label =
-      res.status === "error" ? `${prefix} (error): ${summaryText}` : `${prefix}: ${summaryText}`;
-    state.deps.enqueueSystemEvent(label, { agentId: job.agentId });
-    if (job.wakeMode === "now") {
-      state.deps.requestHeartbeatNow({ reason: `cron:${job.id}` });
-    }
+  if (abortSignal?.aborted) {
+    return { status: "error", error: timeoutErrorMessage() };
   }
 
   return {

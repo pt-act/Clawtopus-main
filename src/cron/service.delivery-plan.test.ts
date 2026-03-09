@@ -54,16 +54,18 @@ describe("CronService delivery plan consistency", () => {
     await store.cleanup();
   });
 
-  it("treats delivery object without mode as announce", async () => {
-    const store = await makeStorePath();
-    const enqueueSystemEvent = vi.fn();
-    const cron = new CronService({
-      cronEnabled: true,
-      storePath: store.storePath,
-      log: noopLogger,
-      enqueueSystemEvent,
-      requestHeartbeatNow: vi.fn(),
-      runIsolatedAgentJob: vi.fn(async () => ({ status: "ok", summary: "done" })),
+  it("treats delivery object without mode as announce without reviving legacy relay fallback", async () => {
+    await withCronService({}, async ({ cron, enqueueSystemEvent }) => {
+      const job = await addIsolatedAgentTurnJob(cron, {
+        name: "partial-delivery",
+        wakeMode: "next-heartbeat",
+        delivery: { channel: "telegram", to: "123" } as DeliveryOverride,
+      });
+
+      const result = await cron.run(job.id, "force");
+      expect(result).toEqual({ ok: true, ran: true });
+      expect(enqueueSystemEvent).not.toHaveBeenCalled();
+      expect(cron.getJob(job.id)?.state.lastDeliveryStatus).toBe("unknown");
     });
     await cron.start();
     const job = await cron.add({

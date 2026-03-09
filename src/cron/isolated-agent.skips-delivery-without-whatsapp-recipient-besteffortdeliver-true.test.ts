@@ -26,8 +26,17 @@ import { runEmbeddedPiAgent } from "../agents/pi-embedded.js";
 import { runSubagentAnnounceFlow } from "../agents/subagent-announce.js";
 import { runCronIsolatedAgentTurn } from "./isolated-agent.js";
 
-async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
-  return withTempHomeBase(fn, { prefix: "openclaw-cron-" });
+const TELEGRAM_TARGET = { mode: "announce", channel: "telegram", to: "123" } as const;
+async function runExplicitTelegramAnnounceTurn(params: {
+  home: string;
+  storePath: string;
+  deps: CliDeps;
+  deliveryContract?: "cron-owned" | "shared";
+}): Promise<Awaited<ReturnType<typeof runCronIsolatedAgentTurn>>> {
+  return runTelegramAnnounceTurn({
+    ...params,
+    delivery: TELEGRAM_TARGET,
+  });
 }
 
 async function writeSessionStore(home: string) {
@@ -270,13 +279,30 @@ describe("runCronIsolatedAgentTurn", () => {
           channels: { telegram: { botToken: "t-1" } },
         }),
         deps,
-        job: {
-          ...makeJob({ kind: "agentTurn", message: "do it" }),
-          delivery: { mode: "announce", channel: "telegram", to: "123" },
-        },
-        message: "do it",
-        sessionKey: "cron:job-1",
-        lane: "cron",
+        deliveryContract: "shared",
+      });
+
+      expectDeliveredOk(res);
+      expect(runSubagentAnnounceFlow).not.toHaveBeenCalled();
+      expect(deps.sendMessageTelegram).not.toHaveBeenCalled();
+    });
+  });
+
+  it("reports not-delivered when best-effort structured outbound sends all fail", async () => {
+    await expectBestEffortTelegramNotDelivered({
+      text: "caption",
+      mediaUrl: "https://example.com/img.png",
+    });
+  });
+
+  it("skips announce for heartbeat-only output", async () => {
+    await withTelegramAnnounceFixture(async ({ home, storePath, deps }) => {
+      mockAgentPayloads([{ text: "HEARTBEAT_OK" }]);
+      const res = await runTelegramAnnounceTurn({
+        home,
+        storePath,
+        deps,
+        delivery: { mode: "announce", channel: "telegram", to: "123" },
       });
 
       expect(res.status).toBe("ok");

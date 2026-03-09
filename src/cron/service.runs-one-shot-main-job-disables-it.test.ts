@@ -286,47 +286,42 @@ describe("CronService", () => {
     await store.cleanup();
   });
 
-  it("runs an isolated job and posts summary to main", async () => {
-    const store = await makeStorePath();
-    const enqueueSystemEvent = vi.fn();
-    const requestHeartbeatNow = vi.fn();
+  it("runs an isolated job without posting a fallback summary to main", async () => {
+    const runIsolatedAgentJob = vi.fn(async () => ({ status: "ok" as const, summary: "done" }));
+    const { store, cron, enqueueSystemEvent, requestHeartbeatNow, events } =
+      await createIsolatedAnnounceHarness(runIsolatedAgentJob);
+    await runIsolatedAnnounceScenario({ cron, events, name: "weekly" });
+    expect(runIsolatedAgentJob).toHaveBeenCalledTimes(1);
+    expect(enqueueSystemEvent).not.toHaveBeenCalled();
+    expect(requestHeartbeatNow).not.toHaveBeenCalled();
+    await stopCronAndCleanup(cron, store);
+  });
+
+  it("does not post isolated summary to main when run already delivered output", async () => {
     const runIsolatedAgentJob = vi.fn(async () => ({
       status: "ok" as const,
       summary: "done",
+      delivered: true,
     }));
-
-    const cron = new CronService({
-      storePath: store.storePath,
-      cronEnabled: true,
-      log: noopLogger,
-      enqueueSystemEvent,
-      requestHeartbeatNow,
+    await expectNoMainSummaryForIsolatedRun({
       runIsolatedAgentJob,
+      name: "weekly delivered",
     });
-
-    await cron.start();
-    const atMs = Date.parse("2025-12-13T00:00:01.000Z");
-    await cron.add({
-      enabled: true,
-      name: "weekly",
-      schedule: { kind: "at", at: new Date(atMs).toISOString() },
-      sessionTarget: "isolated",
-      wakeMode: "now",
-      payload: { kind: "agentTurn", message: "do it" },
-      delivery: { mode: "announce" },
-    });
-
-    vi.setSystemTime(new Date("2025-12-13T00:00:01.000Z"));
-    await vi.runOnlyPendingTimersAsync();
-
-    await waitForJobs(cron, (items) => items.some((item) => item.state.lastStatus === "ok"));
     expect(runIsolatedAgentJob).toHaveBeenCalledTimes(1);
-    expect(enqueueSystemEvent).toHaveBeenCalledWith("Cron: done", {
-      agentId: undefined,
+  });
+
+  it("does not post isolated summary to main when announce delivery was attempted", async () => {
+    const runIsolatedAgentJob = vi.fn(async () => ({
+      status: "ok" as const,
+      summary: "done",
+      delivered: false,
+      deliveryAttempted: true,
+    }));
+    await expectNoMainSummaryForIsolatedRun({
+      runIsolatedAgentJob,
+      name: "weekly attempted",
     });
-    expect(requestHeartbeatNow).toHaveBeenCalled();
-    cron.stop();
-    await store.cleanup();
+    expect(runIsolatedAgentJob).toHaveBeenCalledTimes(1);
   });
 
   it("migrates legacy payload.provider to payload.channel on load", async () => {
@@ -434,10 +429,7 @@ describe("CronService", () => {
     await store.cleanup();
   });
 
-  it("posts last output to main even when isolated job errors", async () => {
-    const store = await makeStorePath();
-    const enqueueSystemEvent = vi.fn();
-    const requestHeartbeatNow = vi.fn();
+  it("does not post a fallback main summary when an isolated job errors", async () => {
     const runIsolatedAgentJob = vi.fn(async () => ({
       status: "error" as const,
       summary: "last output",
@@ -465,16 +457,30 @@ describe("CronService", () => {
       delivery: { mode: "announce" },
     });
 
-    vi.setSystemTime(new Date("2025-12-13T00:00:01.000Z"));
-    await vi.runOnlyPendingTimersAsync();
-    await waitForJobs(cron, (items) => items.some((item) => item.state.lastStatus === "error"));
+    expect(enqueueSystemEvent).not.toHaveBeenCalled();
+    expect(requestHeartbeatNow).not.toHaveBeenCalled();
+    await stopCronAndCleanup(cron, store);
+  });
 
-    expect(enqueueSystemEvent).toHaveBeenCalledWith("Cron (error): last output", {
-      agentId: undefined,
+  it("does not post fallback main summary for isolated delivery-target errors", async () => {
+    const runIsolatedAgentJob = vi.fn(async () => ({
+      status: "error" as const,
+      summary: "last output",
+      error: "Channel is required when multiple channels are configured: telegram, discord",
+      errorKind: "delivery-target" as const,
+    }));
+    const { store, cron, enqueueSystemEvent, requestHeartbeatNow, events } =
+      await createIsolatedAnnounceHarness(runIsolatedAgentJob);
+    await runIsolatedAnnounceJobAndWait({
+      cron,
+      events,
+      name: "isolated delivery target error test",
+      status: "error",
     });
-    expect(requestHeartbeatNow).toHaveBeenCalled();
-    cron.stop();
-    await store.cleanup();
+
+    expect(enqueueSystemEvent).not.toHaveBeenCalled();
+    expect(requestHeartbeatNow).not.toHaveBeenCalled();
+    await stopCronAndCleanup(cron, store);
   });
 
   it("rejects unsupported session/payload combinations", async () => {

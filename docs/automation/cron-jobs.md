@@ -27,6 +27,9 @@ Troubleshooting: [/automation/troubleshooting](/automation/troubleshooting)
   - **Main session**: enqueue a system event, then run on the next heartbeat.
   - **Isolated**: run a dedicated agent turn in `cron:<jobId>`, with delivery (announce by default or none).
 - Wakeups are first-class: a job can request “wake now” vs “next heartbeat”.
+- Webhook posting is per job via `delivery.mode = "webhook"` + `delivery.to = "<url>"`.
+- Legacy fallback remains for stored jobs with `notify: true` when `cron.webhook` is set, migrate those jobs to webhook delivery mode.
+- For upgrades, `openclaw doctor --fix` can normalize legacy cron store fields before the scheduler touches them.
 
 ## Quick start (actionable)
 
