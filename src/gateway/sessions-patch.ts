@@ -15,6 +15,7 @@ import {
   supportsXHighThinking,
 } from "../auto-reply/thinking.js";
 import {
+  isAcpSessionKey,
   isSubagentSessionKey,
   normalizeAgentId,
   parseAgentSessionKey,
@@ -58,6 +59,10 @@ function normalizeExecAsk(raw: string): "off" | "on-miss" | "always" | undefined
   return undefined;
 }
 
+function supportsSpawnLineage(storeKey: string): boolean {
+  return isSubagentSessionKey(storeKey) || isAcpSessionKey(storeKey);
+}
+
 export async function applySessionsPatchToStore(params: {
   cfg: OpenClawConfig;
   store: Record<string, SessionEntry>;
@@ -90,13 +95,35 @@ export async function applySessionsPatchToStore(params: {
       if (!trimmed) {
         return invalid("invalid spawnedBy: empty");
       }
-      if (!isSubagentSessionKey(storeKey)) {
-        return invalid("spawnedBy is only supported for subagent:* sessions");
+      if (!supportsSpawnLineage(storeKey)) {
+        return invalid("spawnedBy is only supported for subagent:* or acp:* sessions");
       }
       if (existing?.spawnedBy && existing.spawnedBy !== trimmed) {
         return invalid("spawnedBy cannot be changed once set");
       }
       next.spawnedBy = trimmed;
+    }
+  }
+
+  if ("spawnDepth" in patch) {
+    const raw = patch.spawnDepth;
+    if (raw === null) {
+      if (typeof existing?.spawnDepth === "number") {
+        return invalid("spawnDepth cannot be cleared once set");
+      }
+    } else if (raw !== undefined) {
+      if (!supportsSpawnLineage(storeKey)) {
+        return invalid("spawnDepth is only supported for subagent:* or acp:* sessions");
+      }
+      const numeric = Number(raw);
+      if (!Number.isInteger(numeric) || numeric < 0) {
+        return invalid("invalid spawnDepth (use an integer >= 0)");
+      }
+      const normalized = numeric;
+      if (typeof existing?.spawnDepth === "number" && existing.spawnDepth !== normalized) {
+        return invalid("spawnDepth cannot be changed once set");
+      }
+      next.spawnDepth = normalized;
     }
   }
 

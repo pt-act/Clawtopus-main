@@ -110,12 +110,85 @@ describe("gateway sessions patch", () => {
         authProfileOverrideCompactionCount: 3,
       } as SessionEntry,
     };
-    const res = await applySessionsPatchToStore({
-      cfg: {} as OpenClawConfig,
-      store,
-      storeKey: "agent:main:main",
-      patch: { model: "openai/gpt-5.2" },
-      loadGatewayModelCatalog: async () => [{ provider: "openai", id: "gpt-5.2" }],
+    const entry = expectPatchOk(
+      await runPatch({
+        store,
+        patch: { key: MAIN_SESSION_KEY, model: "openai/gpt-5.2" },
+        loadGatewayModelCatalog: async () => [
+          { provider: "openai", id: "gpt-5.2", name: "gpt-5.2" },
+        ],
+      }),
+    );
+    expect(entry.providerOverride).toBe("openai");
+    expect(entry.modelOverride).toBe("gpt-5.2");
+    expect(entry.authProfileOverride).toBeUndefined();
+    expect(entry.authProfileOverrideSource).toBeUndefined();
+    expect(entry.authProfileOverrideCompactionCount).toBeUndefined();
+  });
+
+  test.each([
+    {
+      name: "accepts explicit allowlisted provider/model refs from sessions.patch",
+      catalog: [
+        { provider: "anthropic", id: "claude-sonnet-4-6", name: "Claude Sonnet 4.6" },
+        { provider: "anthropic", id: "claude-sonnet-4-5", name: "Claude Sonnet 4.5" },
+      ],
+    },
+    {
+      name: "accepts explicit allowlisted refs absent from bundled catalog",
+      catalog: [
+        { provider: "anthropic", id: "claude-sonnet-4-5", name: "Claude Sonnet 4.5" },
+        { provider: "openai", id: "gpt-5.2", name: "GPT-5.2" },
+      ],
+    },
+  ])("$name", async ({ catalog }) => {
+    const entry = expectPatchOk(
+      await runPatch({
+        cfg: createAllowlistedAnthropicModelCfg(),
+        patch: { key: MAIN_SESSION_KEY, model: "anthropic/claude-sonnet-4-6" },
+        loadGatewayModelCatalog: async () => catalog,
+      }),
+    );
+    expect(entry.providerOverride).toBe("anthropic");
+    expect(entry.modelOverride).toBe("claude-sonnet-4-6");
+  });
+
+  test("sets spawnDepth for subagent sessions", async () => {
+    const entry = expectPatchOk(
+      await runPatch({
+        storeKey: "agent:main:subagent:child",
+        patch: { key: "agent:main:subagent:child", spawnDepth: 2 },
+      }),
+    );
+    expect(entry.spawnDepth).toBe(2);
+  });
+
+  test("sets spawnedBy for ACP sessions", async () => {
+    const entry = expectPatchOk(
+      await runPatch({
+        storeKey: "agent:main:acp:child",
+        patch: {
+          key: "agent:main:acp:child",
+          spawnedBy: "agent:main:main",
+        },
+      }),
+    );
+    expect(entry.spawnedBy).toBe("agent:main:main");
+  });
+
+  test("sets spawnDepth for ACP sessions", async () => {
+    const entry = expectPatchOk(
+      await runPatch({
+        storeKey: "agent:main:acp:child",
+        patch: { key: "agent:main:acp:child", spawnDepth: 2 },
+      }),
+    );
+    expect(entry.spawnDepth).toBe(2);
+  });
+
+  test("rejects spawnDepth on non-subagent sessions", async () => {
+    const result = await runPatch({
+      patch: { key: MAIN_SESSION_KEY, spawnDepth: 1 },
     });
     expect(res.ok).toBe(true);
     if (!res.ok) {
