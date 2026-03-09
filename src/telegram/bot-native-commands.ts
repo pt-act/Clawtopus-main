@@ -388,18 +388,33 @@ export const registerTelegramNativeCommands = ({
       }).catch(() => {});
     }
   };
-  if (typeof bot.api.deleteMyCommands === "function") {
-    withTelegramApiErrorLogging({
-      operation: "deleteMyCommands",
-      runtime,
-      fn: () => bot.api.deleteMyCommands(),
-    })
-      .catch(() => {})
-      .then(registerCommands)
-      .catch(() => {});
-  } else {
-    registerCommands();
-  }
+  const buildCommandDeliveryBaseOptions = (params: {
+    chatId: string | number;
+    accountId: string;
+    sessionKeyForInternalHooks?: string;
+    mirrorIsGroup?: boolean;
+    mirrorGroupId?: string;
+    mediaLocalRoots?: readonly string[];
+    threadSpec: ReturnType<typeof resolveTelegramThreadSpec>;
+    tableMode: ReturnType<typeof resolveMarkdownTableMode>;
+    chunkMode: ReturnType<typeof resolveChunkMode>;
+  }) => ({
+    chatId: String(params.chatId),
+    accountId: params.accountId,
+    sessionKeyForInternalHooks: params.sessionKeyForInternalHooks,
+    mirrorIsGroup: params.mirrorIsGroup,
+    mirrorGroupId: params.mirrorGroupId,
+    token: opts.token,
+    runtime,
+    bot,
+    mediaLocalRoots: params.mediaLocalRoots,
+    replyToMode,
+    textLimit,
+    thread: params.threadSpec,
+    tableMode: params.tableMode,
+    chunkMode: params.chunkMode,
+    linkPreview: telegramCfg.linkPreview,
+  });
 
   if (allCommands.length > 0) {
     if (typeof (bot as unknown as { command?: unknown }).command !== "function") {
@@ -444,8 +459,14 @@ export const registerTelegramNativeCommands = ({
           const threadSpec = resolveTelegramThreadSpec({
             isGroup,
             isForum,
-            messageThreadId,
+            resolvedThreadId,
+            senderId,
+            topicAgentId: topicConfig?.agentId,
           });
+          if (!runtimeContext) {
+            return;
+          }
+          const { threadSpec, route, mediaLocalRoots, tableMode, chunkMode } = runtimeContext;
           const threadParams = buildTelegramThreadParams(threadSpec) ?? {};
 
           const commandDefinition = findCommandByNativeName(command.name, "telegram");
@@ -525,13 +546,24 @@ export const registerTelegramNativeCommands = ({
             channel: "telegram",
             accountId: route.accountId,
           });
-          const skillFilter = firstDefined(topicConfig?.skills, groupConfig?.skills);
-          const systemPromptParts = [
-            groupConfig?.systemPrompt?.trim() || null,
-            topicConfig?.systemPrompt?.trim() || null,
-          ].filter((entry): entry is string => Boolean(entry));
-          const groupSystemPrompt =
-            systemPromptParts.length > 0 ? systemPromptParts.join("\n\n") : undefined;
+          const { sessionKey: commandSessionKey, commandTargetSessionKey } =
+            resolveNativeCommandSessionTargets({
+              agentId: route.agentId,
+              sessionPrefix: "telegram:slash",
+              userId: String(senderId || chatId),
+              targetSessionKey: sessionKey,
+            });
+          const deliveryBaseOptions = buildCommandDeliveryBaseOptions({
+            chatId,
+            accountId: route.accountId,
+            sessionKeyForInternalHooks: commandSessionKey,
+            mirrorIsGroup: isGroup,
+            mirrorGroupId: isGroup ? String(chatId) : undefined,
+            mediaLocalRoots,
+            threadSpec,
+            tableMode,
+            chunkMode,
+          });
           const conversationLabel = isGroup
             ? msg.chat.title
               ? `${msg.chat.title} id:${chatId}`
@@ -683,7 +715,24 @@ export const registerTelegramNativeCommands = ({
           const threadSpec = resolveTelegramThreadSpec({
             isGroup,
             isForum,
-            messageThreadId,
+            resolvedThreadId,
+            senderId,
+            topicAgentId: auth.topicConfig?.agentId,
+          });
+          if (!runtimeContext) {
+            return;
+          }
+          const { threadSpec, route, mediaLocalRoots, tableMode, chunkMode } = runtimeContext;
+          const deliveryBaseOptions = buildCommandDeliveryBaseOptions({
+            chatId,
+            accountId: route.accountId,
+            sessionKeyForInternalHooks: route.sessionKey,
+            mirrorIsGroup: isGroup,
+            mirrorGroupId: isGroup ? String(chatId) : undefined,
+            mediaLocalRoots,
+            threadSpec,
+            tableMode,
+            chunkMode,
           });
           const from = isGroup
             ? buildTelegramGroupFrom(chatId, threadSpec.id)
