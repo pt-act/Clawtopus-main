@@ -1,6 +1,7 @@
 import type { Command } from "commander";
 import { runAcpClientInteractive } from "../acp/client.js";
 import { serveAcpGateway } from "../acp/server.js";
+import { normalizeAcpProvenanceMode } from "../acp/types.js";
 import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
@@ -17,14 +18,39 @@ export function registerAcpCli(program: Command) {
     .option("--require-existing", "Fail if the session key/label does not exist", false)
     .option("--reset-session", "Reset the session key before first use", false)
     .option("--no-prefix-cwd", "Do not prefix prompts with the working directory", false)
-    .option("--verbose, -v", "Verbose logging to stderr", false)
+    .option("--provenance <mode>", "ACP provenance mode: off, meta, or meta+receipt")
+    .option("-v, --verbose", "Verbose logging to stderr", false)
     .addHelpText(
       "after",
       () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/acp", "docs.openclaw.ai/cli/acp")}\n`,
     )
     .action((opts) => {
       try {
-        serveAcpGateway({
+        const gatewayToken = resolveSecretOption({
+          direct: opts.token as string | undefined,
+          file: opts.tokenFile as string | undefined,
+          directFlag: "--token",
+          fileFlag: "--token-file",
+          label: "Gateway token",
+        });
+        const gatewayPassword = resolveSecretOption({
+          direct: opts.password as string | undefined,
+          file: opts.passwordFile as string | undefined,
+          directFlag: "--password",
+          fileFlag: "--password-file",
+          label: "Gateway password",
+        });
+        if (opts.token) {
+          warnSecretCliFlag("--token");
+        }
+        if (opts.password) {
+          warnSecretCliFlag("--password");
+        }
+        const provenanceMode = normalizeAcpProvenanceMode(opts.provenance as string | undefined);
+        if (opts.provenance && !provenanceMode) {
+          throw new Error("Invalid --provenance value. Use off, meta, or meta+receipt.");
+        }
+        await serveAcpGateway({
           gatewayUrl: opts.url as string | undefined,
           gatewayToken: opts.token as string | undefined,
           gatewayPassword: opts.password as string | undefined,
@@ -33,6 +59,7 @@ export function registerAcpCli(program: Command) {
           requireExistingSession: Boolean(opts.requireExisting),
           resetSession: Boolean(opts.resetSession),
           prefixCwd: !opts.noPrefixCwd,
+          provenanceMode,
           verbose: Boolean(opts.verbose),
         });
       } catch (err) {

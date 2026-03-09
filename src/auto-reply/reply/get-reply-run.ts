@@ -421,7 +421,8 @@ export async function runPreparedReply(
       timeoutMs,
       blockReplyBreak: resolvedBlockStreamingBreak,
       ownerNumbers: command.ownerList.length > 0 ? command.ownerList : undefined,
-      extraSystemPrompt: extraSystemPrompt || undefined,
+      inputProvenance: ctx.InputProvenance ?? sessionCtx.InputProvenance,
+      extraSystemPrompt: extraSystemPromptParts.join("\n\n") || undefined,
       ...(isReasoningTagProvider(provider) ? { enforceFinalTag: true } : {}),
     },
   };
