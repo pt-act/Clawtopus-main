@@ -250,6 +250,7 @@ export class AcpGatewayAgent implements Agent {
       this.log(`setSessionMode: ${session.sessionId} -> ${params.modeId}`);
     } catch (err) {
       this.log(`setSessionMode error: ${String(err)}`);
+      throw err;
     }
     return {};
   }
