@@ -30,7 +30,29 @@ WhatsApp, Telegram, Discord, iMessage, Signal, Slack, Matrix, and more
 
 Docs: https://docs.openclaw.ai
 
-## 2026.2.13 (Unreleased)
+## Unreleased
+
+### Fixes
+
+- Browser/SSRF: block private-network intermediate redirect hops in strict browser navigation flows and fail closed when remote tab-open paths cannot inspect redirect chains. Thanks @zpbrent.
+
+## 2026.3.8
+
+### Changes
+
+- Extensions/ACPX tests: move the shared runtime fixture helper from `src/runtime-internals/` to `src/test-utils/` so the test-only helper no longer looks like shipped runtime code.
+- TUI: infer the active agent from the current workspace when launched inside a configured agent workspace, while preserving explicit `agent:` session targets. (#39591) thanks @arceus77-7.
+- Tools/Brave web search: add opt-in `tools.web.search.brave.mode: "llm-context"` so `web_search` can call Brave's LLM Context endpoint and return extracted grounding snippets with source metadata, plus config/docs/test coverage. (#33383) Thanks @thirumaleshp.
+- Talk mode: add top-level `talk.silenceTimeoutMs` config so Talk waits a configurable amount of silence before auto-sending the current transcript, while keeping each platform's existing default pause window when unset. (#39607) Thanks @danodoesdesign. Fixes #17147.
+- CLI/install: include the short git commit hash in `openclaw --version` output when metadata is available, and keep installer version checks compatible with the decorated format. (#39712) thanks @sourman.
+- Docs/Web search: restore $5/month free-credit details, replace defunct "Data for Search"/"Data for AI" plan names with current "Search" plan, and note legacy subscription validity in Brave setup docs. Follows up on #26860. (#40111) Thanks @remusao.
+- macOS/onboarding: add a remote gateway token field for remote mode, preserve existing non-plaintext `gateway.remote.token` config values until explicitly replaced, and warn when the loaded token shape cannot be used directly from the macOS app. (#40187, supersedes #34614) Thanks @cgdusek.
+- CLI/backup: add `openclaw backup create` and `openclaw backup verify` for local state archives, including `--only-config`, `--no-include-workspace`, manifest/payload validation, and backup guidance in destructive flows. (#40163) thanks @shichangs.
+- CLI/backup: improve archive naming for date sorting, add config-only backup mode, and harden backup planning, publication, and verification edge cases. (#40163) Thanks @gumadeiras.
+- ACP/Provenance: add optional ACP ingress provenance metadata and visible receipt injection (`openclaw acp --provenance off|meta|meta+receipt`) so OpenClaw agents can retain and report ACP-origin context with session trace IDs. (#40473) thanks @mbelinky.
+- Tools/web search: alphabetize provider ordering across runtime selection, onboarding/configure pickers, and config metadata, so provider lists stay neutral and multi-key auto-detect now prefers Grok before Kimi. (#40259) thanks @kesku.
+
+### Breaking
 
 ### Fixes
 

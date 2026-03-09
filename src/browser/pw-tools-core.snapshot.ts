@@ -1,5 +1,11 @@
 import { type AriaSnapshotNode, formatAriaSnapshot, type RawAXNode } from "./cdp.js";
 import {
+  assertBrowserNavigationAllowed,
+  assertBrowserNavigationRedirectChainAllowed,
+  assertBrowserNavigationResultAllowed,
+  withBrowserNavigationPolicy,
+} from "./navigation-guard.js";
+import {
   buildRoleSnapshotFromAiSnapshot,
   buildRoleSnapshotFromAriaSnapshot,
   getRoleSnapshotStats,
@@ -165,8 +171,33 @@ export async function navigateViaPlaywright(opts: {
   }
   const page = await getPageForTargetId(opts);
   ensurePageState(page);
-  await page.goto(url, {
-    timeout: Math.max(1000, Math.min(120_000, opts.timeoutMs ?? 20_000)),
+  const navigate = async () => await page.goto(url, { timeout });
+  let response;
+  try {
+    response = await navigate();
+  } catch (err) {
+    if (!isRetryableNavigateError(err)) {
+      throw err;
+    }
+    // Extension relays can briefly drop CDP during renderer swaps/navigation.
+    // Force a clean reconnect, then retry once on the refreshed page handle.
+    await forceDisconnectPlaywrightForTarget({
+      cdpUrl: opts.cdpUrl,
+      targetId: opts.targetId,
+      reason: "retry navigate after detached frame",
+    }).catch(() => {});
+    page = await getPageForTargetId(opts);
+    ensurePageState(page);
+    response = await navigate();
+  }
+  await assertBrowserNavigationRedirectChainAllowed({
+    request: response?.request(),
+    ...withBrowserNavigationPolicy(opts.ssrfPolicy),
+  });
+  const finalUrl = page.url();
+  await assertBrowserNavigationResultAllowed({
+    url: finalUrl,
+    ...withBrowserNavigationPolicy(opts.ssrfPolicy),
   });
   return { url: page.url() };
 }
